@@ -3,4 +3,4 @@ project(Jank_engine)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Jank_engine main.cpp Direction.cpp Direction.h Object.cpp Object.h TheFirstMover.cpp TheFirstMover.h Angle.cpp Angle.h)
+add_executable(Jank_engine main.cpp Object.cpp Object.h PhysicsVector.cpp PhysicsVector.h TheFirstMover.cpp TheFirstMover.h Angle.cpp Angle.h)

@@ -1,0 +1,4 @@
+# CLion configuration folder
+.idea/
+# Build system stuff
+cmake-build-debug/

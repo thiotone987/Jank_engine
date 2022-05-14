@@ -79,3 +79,17 @@ INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR} ${SDL2_IMAGE_INCL
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY} )
 
 # ------- End ----------- #
+
+
+#cmake_minimum_required(VERSION 3.14)
+#project(Graphos)
+
+#set(CMAKE_CXX_STANDARD 17)
+
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+
+# Included these two lines:
+
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
+target_link_libraries(SDL2_Basic_Setup ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})

@@ -1,13 +1,81 @@
-cmake_minimum_required(VERSION 3.6)
-project(Jank_engine)
+cmake_minimum_required(VERSION 3.13.1)
+
+Message( STATUS "CMAKE_BINARY_DIR: " ${CMAKE_BINARY_DIR} )
+Message( STATUS "CMAKE_SOURCE_DIR: " ${CMAKE_SOURCE_DIR} )
+Message( STATUS "CMAKE_COMMAND: " ${CMAKE_COMMAND} )
+Message( STATUS "CMAKE_VERSION: " ${CMAKE_VERSION} )
+Message( STATUS "CMAKE_C_COMPILER: " ${CMAKE_C_COMPILER} )
+Message( STATUS "CMAKE_PROJECT_NAME: " ${CMAKE_PROJECT_NAME} )
+
+project(SDL2_Basic_Setup)
+
+# ------- Set Vars ------- #
+
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
+set(SOURCE_FILES  main.cpp Object.cpp Object.h PhysicsVector.cpp PhysicsVector.h TheFirstMover.cpp TheFirstMover.h)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lmingw32")
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+Message("")
+Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )
+Message("")
 
-include_directories(C:/Users/caryj/CLionProjects/Jank_engine/SDL2/include)
-link_directories(C:/Users/caryj/CLionProjects/Jank_engine/SDL2/lib)
+# ------- End Set Vars --- #
 
-add_executable(Jank_engine main.cpp Object.cpp Object.h PhysicsVector.cpp PhysicsVector.h TheFirstMover.cpp TheFirstMover.h)
+# ------- Executable ----- #
 
-target_link_libraries(Jank_engine mingw32 SDL2main SDL2)
+ADD_EXECUTABLE(SDL2_Basic_Setup ${SOURCE_FILES})
+
+# ------- End Executable - #
+
+# ------- Finds ---------- #
+
+FIND_PACKAGE(SDL2 REQUIRED)
+Message("")
+Message( STATUS "FINDING SDL2" )
+IF (${SDL2_FOUND})
+    Message( STATUS "SDL2_FOUND: " ${SDL2_FOUND})
+    Message( STATUS "SDL2_INCLUDE_DIR:" ${SDL2_INCLUDE_DIR})
+    Message( STATUS "SDL2_LIBRARY: " ${SDL2_LIBRARY})
+ELSE()
+    Message( STATUS "SDL2_FOUND: " ${SDL2_FOUND})
+    Message( FATAL_ERROR "SDL2 NOT FOUND" )
+ENDIF()
+
+FIND_PACKAGE(SDL2_IMAGE)
+Message("")
+Message( STATUS "FINDING SDL2_IMAGE" )
+Message( STATUS "SDL2_IMAGE_FOUND: " ${SDL2_IMAGE_FOUND})
+IF (${SDL2_IMAGE_FOUND})
+    Message( STATUS "SDL2_IMAGE_INCLUDE_DIR: " ${SDL2_IMAGE_INCLUDE_DIR})
+    Message( STATUS "SDL2_IMAGE_LIBRARY: " ${SDL2_IMAGE_LIBRARY})
+ELSE()
+    Message( FATAL_ERROR "SDL2_IMAGE NOT FOUND" )
+ENDIF()
+
+FIND_PACKAGE(SDL2TTF)
+Message("")
+Message( STATUS "FINDING SDL2TTF" )
+Message( STATUS "SDL2TTF_FOUND: " ${SDL2TTF_FOUND} )
+IF (${SDL2TTF_FOUND})
+    Message( STATUS "SDL2TTF_INCLUDE_DIR: " ${SDL2TTF_INCLUDE_DIR})
+    Message( STATUS "SDL2TTF_LIBRARY: " ${SDL2TTF_LIBRARY})
+ELSE()
+    Message( FATAL_ERROR "SDL2TTF NOT FOUND" )
+ENDIF()
+Message("")
+
+FIND_PACKAGE(SDL2Mixer)
+
+Message( STATUS "FINDING SDL2Mixer" )
+Message( STATUS "SDL2Mixer_FOUND: " ${SDL2Mixer_FOUND} )
+
+Message("")
+
+# ------- End Finds ------ #
+
+# ------- Inc & Link ---- #
+
+INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2Mixer_INCLUDE_DIR})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY} )
+
+# ------- End ----------- #

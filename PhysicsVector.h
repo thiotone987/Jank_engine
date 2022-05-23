@@ -21,11 +21,9 @@ public:
 
     [[nodiscard]] double get_y() const;
     void set_y(double y);
-    [[nodiscard]] PhysicsVector operator+(PhysicsVector&) const;
-    [[nodiscard]] PhysicsVector operator+(PhysicsVector&&) const;
+    [[nodiscard]] PhysicsVector operator+(const PhysicsVector&) const;
 
-    PhysicsVector& operator+=(PhysicsVector&);
-    PhysicsVector& operator+=(PhysicsVector&&);
+    PhysicsVector& operator+=(const PhysicsVector&);
 
     friend std::ostream& operator<<(std::ostream&, const PhysicsVector&);
 };

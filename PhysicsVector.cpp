@@ -28,21 +28,11 @@ void PhysicsVector::set_y(double y) {
     this->y = y;
 }
 
-PhysicsVector PhysicsVector::operator+(PhysicsVector& other) const {
+PhysicsVector PhysicsVector::operator+(const PhysicsVector& other) const {
     return {this->get_x()+other.get_x(), this->get_y()+other.get_y()};
 }
 
-PhysicsVector PhysicsVector::operator+(PhysicsVector&& other) const {
-    return {this->get_x()+other.get_x(), this->get_y()+other.get_y()};
-}
-
-PhysicsVector& PhysicsVector::operator+=(PhysicsVector& other) {
-    this->set_x(this->get_x()+other.get_x());
-    this->set_y(this->get_y()+other.get_y());
-    return *this;
-}
-
-PhysicsVector& PhysicsVector::operator+=(PhysicsVector&& other) {
+PhysicsVector& PhysicsVector::operator+=(const PhysicsVector& other) {
     this->set_x(this->get_x()+other.get_x());
     this->set_y(this->get_y()+other.get_y());
     return *this;

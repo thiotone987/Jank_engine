@@ -7,7 +7,7 @@
 #include <GLUT/glut.h>
 
 
-void display_func(void)
+void display_func()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glBegin(GL_POLYGON);
@@ -19,7 +19,7 @@ void display_func(void)
     glFlush();
 }
 
-void start_graphics(int* argcp, char* argv []) {
+void start_graphics(int* argcp, char* argv[]) {
     glutInit(argcp, argv);
     glutInitDisplayMode(GLUT_SINGLE);
     glutInitWindowSize(400, 300);

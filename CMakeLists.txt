@@ -7,7 +7,7 @@ Message( STATUS "CMAKE_VERSION: " ${CMAKE_VERSION} )
 Message( STATUS "CMAKE_C_COMPILER: " ${CMAKE_C_COMPILER} )
 Message( STATUS "CMAKE_PROJECT_NAME: " ${CMAKE_PROJECT_NAME} )
 
-project(SDL2_Basic_Setup)
+project(Jank_engine)
 
 # ------- Set Vars ------- #
 
@@ -23,7 +23,7 @@ Message("")
 
 # ------- Executable ----- #
 
-ADD_EXECUTABLE(SDL2_Basic_Setup ${SOURCE_FILES})
+ADD_EXECUTABLE(Jank_engine ${SOURCE_FILES})
 
 # ------- End Executable - #
 
@@ -92,4 +92,4 @@ find_package(GLUT REQUIRED)
 # Included these two lines:
 
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
-target_link_libraries(SDL2_Basic_Setup ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+target_link_libraries(Jank_engine ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})

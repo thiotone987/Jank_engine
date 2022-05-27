@@ -10,6 +10,7 @@
 #include <chrono>
 #include <iostream>
 #include "Object.h"
+#include "Graphics.h"
 
 void start_motion();
 

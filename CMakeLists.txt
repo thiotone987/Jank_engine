@@ -13,7 +13,7 @@ project(SDL2_Basic_Setup)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
-set(SOURCE_FILES  main.cpp Object.cpp Object.h PhysicsVector.cpp PhysicsVector.h TheFirstMover.cpp TheFirstMover.h)
+set(SOURCE_FILES  main.cpp Object.cpp Object.h PhysicsVector.cpp PhysicsVector.h TheFirstMover.cpp TheFirstMover.h Graphics.cpp Graphics.h)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )

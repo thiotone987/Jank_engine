@@ -3,6 +3,7 @@
 //
 
 #include "TheFirstMover.h"
+#include <GLUT/glut.h>
 
 void start_motion() {
     moving = true;
@@ -12,6 +13,7 @@ void start_motion() {
             for (Object *obj: objects) {
                 obj->move(obj->get_velocity());
             }
+            glutPostRedisplay();
         }
     });
 }

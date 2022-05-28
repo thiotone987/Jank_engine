@@ -19,7 +19,6 @@ void start_graphics(int* argcp, char* argv[]) {
 void display_func()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glBegin(GL_POLYGON);
     glColor3f(1.0f, 0.5f, 0.3f);
     display_objects();
     glFlush();

@@ -5,20 +5,25 @@
 #include "TheFirstMover.h"
 #include <GLUT/glut.h>
 
+
 void start_motion() {
     moving = true;
-    motion_thread = std::thread([&](){
-        while (moving) {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            for (Object *obj: objects) {
-                obj->move(obj->get_velocity());
-            }
-            glutPostRedisplay();
-        }
-    });
+    per_second_movement(0);
+}
+
+// per_second_movement needs to take an int because glutTimerFunc always passes an int
+void per_second_movement(int) {
+    if (moving) {
+        // causes per_second_movement to be called every second
+        glutTimerFunc(1000, per_second_movement, 0);
+    }
+
+    for (Object *obj: objects) {
+        obj->move(obj->get_velocity());
+    }
+    glutPostRedisplay();
 }
 
 void end_motion() {
     moving = false;
-    motion_thread.join();
 }

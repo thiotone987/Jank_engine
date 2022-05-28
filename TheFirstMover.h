@@ -14,6 +14,8 @@
 
 void start_motion();
 
+void per_second_movement(int);
+
 void end_motion();
 
 static std::thread motion_thread;

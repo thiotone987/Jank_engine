@@ -6,10 +6,10 @@
 
 std::vector<Object*> objects;
 
-Object::Object() : Object(PhysicsVector(0, 0), PhysicsVector(0, 0)) {
+Object::Object() : Object(PhysicsVector(0, 0, METERS), PhysicsVector(0, 0, METERS/SECONDS)) {
 }
 
-Object::Object(PhysicsVector initial_position) : Object(initial_position, PhysicsVector(0, 0)) {
+Object::Object(PhysicsVector initial_position) : Object(initial_position, PhysicsVector(0, 0, METERS/SECONDS)) {
 }
 
 Object::Object(PhysicsVector initial_position, PhysicsVector initial_velocity) {

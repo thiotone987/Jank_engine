@@ -24,34 +24,22 @@ void display_func()
     glFlush();
 }
 
-void polar_to_cartesian(GLdouble *output, GLdouble radius, GLdouble radians) {
-    output[0] = radius*std::cos(radians);
-    output[1] = radius*std::sin(radians);
-}
-
-void *transform(GLdouble *coords, GLdouble x_shift, GLdouble y_shift) {
-    coords[0] += x_shift;
-    coords[1] += y_shift;
-}
-
-void load_regular_polygon(GLdouble num_sides, GLdouble side_len, GLdouble x, GLdouble y) {
+void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector& center_coords) {
     glBegin(GL_POLYGON);
     //glVertex2f();
-    GLdouble center_to_vertex = std::abs(side_len / (2 * std::sin(180.0 / num_sides)));
-    auto *coords = new GLdouble[2];
+    const GLdouble center_vertex_dist = std::abs(side_len / (2 * std::sin(180.0 / num_sides)));
     for (int i = 0; i < num_sides; i++) {
-        polar_to_cartesian(coords, center_to_vertex,
-                           (2*M_PI/ num_sides)*i);
-        transform(coords, x, y);
-        glVertex2dv(coords);
+        PhysicsVector point_coords =
+                PhysicsVector::construct_polar(center_vertex_dist,(2*M_PI/num_sides)*i)
+                + center_coords;
+        glVertex2dv(point_coords.as_glvector());
     }
     glEnd();
     glFlush();
-    delete[] coords;
 }
 
 void display_objects() {
     for (Object *object : objects) {
-        load_regular_polygon(4, 0.2, object->get_position().get_x(), object->get_position().get_y());
+        load_regular_polygon(4, 0.2, object->get_position());
     }
 }

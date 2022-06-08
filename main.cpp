@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include "Unit.h"
 #include "SchizoMap.h"
+#include <boost/any.hpp>
 
 int main(int argc, char* argv []) {
 //    Object obj(PhysicsVector(-0.5, 0.5, Unit(0, 0, 0)), PhysicsVector(-0.01, 0.02, Unit(0, 0, 0)));
@@ -16,13 +17,13 @@ int main(int argc, char* argv []) {
     Object obj(some_distance);
     Object obj2(PhysicsVector(2, 3, METERS));
     SchizoMap help;
-    std::map<std::string, int> obj_attrs;
-    obj_attrs.insert(std::pair<std::string, int>("hi", 3));
-    std::map<std::string, int> obj2_attrs;
-    obj2_attrs.insert(std::pair<std::string, int>("hi", 3));
+    std::map<std::string, any_mapkv_t> obj_attrs;
+    obj_attrs.insert(std::pair<std::string, any_mapkv_t>("hi", "hooo"));
+    std::map<std::string, any_mapkv_t> obj2_attrs;
+    obj2_attrs.insert(std::pair<std::string, any_mapkv_t>("hi", "hooo"));
     help.add(&obj, obj_attrs);
     help.add(&obj2, obj2_attrs);
-    auto a = help.filter("hi", 3);
+    auto a = help.filter("hi", "hooo");
     for (const auto& aa : a) {
         std::cout << aa->get_position() << std::endl;
     }

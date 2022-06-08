@@ -88,8 +88,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
+find_package(Boost REQUIRED)
 
-# Included these two lines:
-
-include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 target_link_libraries(Jank_engine ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})

@@ -30,7 +30,7 @@ private:
     std::unordered_map<Object*, std::unordered_set<std::string>> objs_to_attr_names;
 public:
     void add(Object* obj) {
-        const auto obj_attr_map = obj->get_attr_map<attr_types...>();
+        const auto& obj_attr_map = obj->get_attr_map<attr_types...>();
 
         std::unordered_set<std::string> attr_names;
         for (auto const& attr : obj_attr_map) {
@@ -38,9 +38,9 @@ public:
         }
         objs_to_attr_names.insert(std::make_pair(obj, attr_names));
 
-        for (auto const& attr : obj_attr_map) {
-            auto const& attr_name = attr.first;
-            auto const& attr_val = attr.second;
+        for (const auto& attr : obj_attr_map) {
+            const auto& attr_name = attr.first;
+            const auto& attr_val = attr.second;
 
             if (attr_metamap.contains(attr_name)) {
                 auto &objs_with_attr = attr_metamap[attr_name][attr_val];
@@ -55,7 +55,23 @@ public:
             }
         }
     }
-    void remove(Object* obj);
+
+    void remove(Object* obj) {
+        // remove from attr_metamap
+        auto obj_attr_map = obj->get_attr_map<attr_types...>();
+        const auto& obj_attr_names = objs_to_attr_names[obj];
+        for (const auto& attr_name : obj_attr_names) {
+            const auto& attr_val = obj_attr_map[attr_name];
+            std::unordered_set<Object*>& attr_obj_set = attr_metamap[attr_name][attr_val];
+            attr_obj_set.erase(obj);
+            if (attr_obj_set.empty()) {
+                attr_metamap[attr_name].erase(attr_val);
+            }
+        }
+
+        // remove from objs_to_attr_names
+        objs_to_attr_names.erase(obj);
+    }
 
     std::unordered_set<Object*> filter(const std::string& attr_name, const boost::variant<attr_types...>& attr_val) {
         return attr_metamap[attr_name][attr_val];

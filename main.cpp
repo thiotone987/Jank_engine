@@ -20,6 +20,7 @@ int main(int argc, char* argv []) {
 
     help.add(&obj);
     help.add(&obj2);
+    help.remove(&obj);
     auto a = help.filter("position", PhysicsVector(1, 2, METERS));
     for (const auto& aa : a) {
         std::cout << aa->get_position() << std::endl;

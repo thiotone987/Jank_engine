@@ -15,15 +15,12 @@ int main(int argc, char* argv []) {
     Unit velocity = METERS/SECONDS;
     PhysicsVector some_distance = PhysicsVector(1, 2, METERS);
     Object obj(some_distance);
-    Object obj2(PhysicsVector(2, 3, METERS));
+    Object obj2(PhysicsVector(1, 2, METERS));
     SchizoMap help;
-    std::map<std::string, any_mapkv_t> obj_attrs;
-    obj_attrs.insert(std::pair<std::string, any_mapkv_t>("hi", "hooo"));
-    std::map<std::string, any_mapkv_t> obj2_attrs;
-    obj2_attrs.insert(std::pair<std::string, any_mapkv_t>("hi", "hooo"));
-    help.add(&obj, obj_attrs);
-    help.add(&obj2, obj2_attrs);
-    auto a = help.filter("hi", "hooo");
+
+    help.add(&obj);
+    help.add(&obj2);
+    auto a = help.filter("position", PhysicsVector(1, 2, METERS));
     for (const auto& aa : a) {
         std::cout << aa->get_position() << std::endl;
     }

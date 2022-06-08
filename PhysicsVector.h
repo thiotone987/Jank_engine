@@ -9,6 +9,7 @@
 #include <OpenGL/gl.h>
 #include <cmath>
 #include <memory>
+#include <boost/functional/hash.hpp>
 #include "Unit.h"
 
 class PhysicsVector {
@@ -28,6 +29,8 @@ public:
     [[nodiscard]] GLdouble get_y() const;
     void set_y(GLdouble y);
 
+    [[nodiscard]] Unit get_units() const;
+
     [[nodiscard]] GLdouble* as_glvector() const;
 
 
@@ -36,7 +39,12 @@ public:
 
     PhysicsVector& operator+=(const PhysicsVector&);
 
+    friend bool operator==(const PhysicsVector& vec1, const PhysicsVector& vec2);
+
     friend std::ostream& operator<<(std::ostream&, const PhysicsVector&);
 };
+
+std::size_t hash_value(PhysicsVector const& vec);
+
 
 #endif //JANK_ENGINE_PHYSICSVECTOR_H

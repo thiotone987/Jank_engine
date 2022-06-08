@@ -8,6 +8,7 @@
 #include <iostream>
 #include <array>
 #include <vector>
+#include <boost/functional/hash.hpp>
 
 class Unit {
 private:
@@ -40,6 +41,8 @@ public:
     };
 //    friend std::ostream& operator<<(std::ostream& os, const Unit& unit);
 };
+
+std::size_t hash_value(Unit const& unit);
 
 const Unit METERS(1, 0, 0);
 const Unit SECONDS(0, 1, 0);

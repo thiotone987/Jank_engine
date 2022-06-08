@@ -7,6 +7,8 @@
 
 
 #include <vector>
+#include <boost/variant.hpp>
+#include <unordered_map>
 #include "PhysicsVector.h"
 
 class Object {
@@ -25,6 +27,17 @@ public:
 
     [[nodiscard]] PhysicsVector get_position() const;
     void set_position(PhysicsVector);
+
+    template<typename... attr_types>
+    std::unordered_map<std::string, boost::variant<attr_types...>> get_attr_map() {
+        std::unordered_map<std::string, boost::variant<attr_types...>> output;
+        // can't use make_pair because we need implicit conversion from _attr's type to boost::variant
+#define ADD_ATTR(_attr) output.insert(std::pair<std::string, boost::variant<attr_types...>>(#_attr, _attr));
+        ADD_ATTR(position);
+        ADD_ATTR(velocity);
+#undef ADD_ATTR
+        return output;
+    }
 
     friend std::ostream& operator<<(std::ostream& os, const Object& vector);
 };

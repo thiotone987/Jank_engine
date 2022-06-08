@@ -37,6 +37,10 @@ void PhysicsVector::set_y(double y) {
     coords[1] = y;
 }
 
+Unit PhysicsVector::get_units() const {
+    return units;
+}
+
 GLdouble* PhysicsVector::as_glvector() const {
     return this->coords.get();
 }
@@ -58,7 +62,21 @@ PhysicsVector& PhysicsVector::operator+=(const PhysicsVector& other) {
     return *this;
 }
 
+bool operator==(const PhysicsVector& vec1, const PhysicsVector& vec2) {
+    return vec1.get_x() == vec2.get_x()
+    && vec1.get_y() == vec2.get_y()
+    && vec1.get_units() == vec2.get_units();
+}
+
 std::ostream& operator<<(std::ostream& os, const PhysicsVector& vector) {
     os << "(" << vector.get_x() << ", " << vector.get_y() << ")";
     return os;
+}
+
+std::size_t hash_value(PhysicsVector const& vec) {
+    std::size_t seed = 0;
+    boost::hash_combine(seed, vec.get_x());
+    boost::hash_combine(seed, vec.get_y());
+    boost::hash_combine(seed, vec.get_units());
+    return seed;
 }

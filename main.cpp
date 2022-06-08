@@ -15,12 +15,15 @@ int main(int argc, char* argv []) {
     Unit velocity = METERS/SECONDS;
     PhysicsVector some_distance = PhysicsVector(1, 2, METERS);
     Object obj(some_distance);
-    Object obj2(PhysicsVector(1, 2, METERS));
+    PhysicsVector some_velocity = PhysicsVector(3, 2, METERS/SECONDS);
+    Object obj2(some_distance, some_velocity);
     SchizoMap help;
 
     help.add(&obj);
     help.add(&obj2);
+    std::cout << help << std::endl;
     help.remove(&obj);
+    help.remove(&obj2);
     auto a = help.filter("position", PhysicsVector(1, 2, METERS));
     for (const auto& aa : a) {
         std::cout << aa->get_position() << std::endl;

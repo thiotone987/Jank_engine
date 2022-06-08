@@ -76,7 +76,39 @@ public:
     std::unordered_set<Object*> filter(const std::string& attr_name, const boost::variant<attr_types...>& attr_val) {
         return attr_metamap[attr_name][attr_val];
     }
+
+    friend std::ostream& operator<<(std::ostream& ost, SchizoMapTemplate<attr_types...> schizo_map) {
+        ost << "Objects: " << std::endl;
+        for (const std::pair<Object*, std::unordered_set<std::string>>& temp : schizo_map.objs_to_attr_names) {
+            const auto& obj = temp.first;
+            const auto& attr_names = temp.second;
+            ost << "\tObject at address " << obj << " has attributes: ";
+            for (const std::string& attr_name : attr_names) {
+                ost << attr_name << ", ";
+            }
+            ost << std::endl;
+        }
+        ost << "Attributes: " << std::endl;
+        for (const auto& temp : schizo_map.attr_metamap) {
+            const auto& attr_name = temp.first;
+            const auto& attr_vals_to_obj_sets = temp.second;
+            ost << "\tValues for " << attr_name << " attribute: " << std::endl;
+            for (const auto& temp2 : attr_vals_to_obj_sets) {
+                const auto& attr_val = temp2.first;
+                const auto& obj_set = temp2.second;
+                ost << "\t\tThe following objects have this attribute with value " << attr_val << ": " << std::endl;
+                ost << "\t\t\t";
+                for (const auto& obj : obj_set) {
+                    ost << obj << ", ";
+                }
+                ost << std::endl;
+            }
+        }
+        ost << std::endl;
+        return ost;
+    }
 };
+
 
 // Add types to the comma-separated list to get SchizoMap support for attributes of that type
 typedef SchizoMapTemplate<PhysicsVector, int, std::string> SchizoMap;

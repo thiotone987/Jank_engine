@@ -12,6 +12,9 @@
 #include "PhysicsVector.h"
 
 class Object {
+public:
+    // Add types to the comma-separated list to get SchizoMap support for attributes of that type
+    typedef boost::variant<int, std::string, PhysicsVector> attr_val_t;
 private:
     PhysicsVector position;
     PhysicsVector velocity;
@@ -27,12 +30,11 @@ public:
 
     [[nodiscard]] PhysicsVector get_position() const;
     void set_position(PhysicsVector);
-
-    template<typename... attr_types>
-    std::unordered_map<std::string, boost::variant<attr_types...>> get_attr_map() {
-        std::unordered_map<std::string, boost::variant<attr_types...>> output;
+    
+    std::unordered_map<std::string, attr_val_t> get_attr_map() {
+        std::unordered_map<std::string, attr_val_t> output;
         // can't use make_pair because we need implicit conversion from _attr's type to boost::variant
-#define ADD_ATTR(_attr) output.insert(std::pair<std::string, boost::variant<attr_types...>>(#_attr, _attr));
+#define ADD_ATTR(_attr) output.insert(std::pair<std::string, attr_val_t>(#_attr, _attr));
         ADD_ATTR(position);
         ADD_ATTR(velocity);
 #undef ADD_ATTR

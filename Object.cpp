@@ -4,23 +4,23 @@
 
 #include "Object.h"
 
-std::vector<Object*> objects;
+std::unordered_set<Object*> objects;
 
-Object::Object() : Object(PhysicsVector(0, 0, METERS), PhysicsVector(0, 0, METERS/SECONDS)) {
+Object::Object()
+: Object(PhysicsVector(0, 0, METERS), PhysicsVector(0, 0, METERS/SECONDS)) {
 }
 
-Object::Object(PhysicsVector initial_position) : Object(initial_position, PhysicsVector(0, 0, METERS/SECONDS)) {
+Object::Object(PhysicsVector initial_position)
+: Object(std::move(initial_position), PhysicsVector(0, 0, METERS/SECONDS)) {
 }
 
-Object::Object(PhysicsVector initial_position, PhysicsVector initial_velocity) {
-    objects.push_back(this);
-    this->position = initial_position;
-    this->velocity = initial_velocity;
+Object::Object(PhysicsVector initial_position, PhysicsVector initial_velocity)
+: position(std::move(initial_position)), velocity(std::move(initial_velocity)) {
+    objects.insert(this);
 }
 
 Object::~Object() {
-    auto object_iter = std::find(objects.begin(), objects.end(), this);
-    if (object_iter != objects.end()) objects.erase(object_iter);
+    objects.erase(this);
 }
 
 PhysicsVector Object::get_position() const {
@@ -28,7 +28,7 @@ PhysicsVector Object::get_position() const {
 }
 
 void Object::set_position(PhysicsVector position) {
-    this->position = position;
+    this->position = std::move(position);
 }
 
 PhysicsVector Object::get_velocity() const {
@@ -36,10 +36,10 @@ PhysicsVector Object::get_velocity() const {
 }
 
 void Object::set_velocity(PhysicsVector velocity) {
-    this->velocity = velocity;
+    this->velocity = std::move(velocity);
 }
 
-void Object::move(PhysicsVector displacement) {
+void Object::move(const PhysicsVector& displacement) {
     this->position += displacement;
 }
 

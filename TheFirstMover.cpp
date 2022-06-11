@@ -19,7 +19,7 @@ void per_second_movement(int) {
     }
 
     for (Object *obj: objects) {
-        obj->move(obj->get_velocity());
+        obj->move(obj->get_velocity()*SECONDS);
     }
     glutPostRedisplay();
 }

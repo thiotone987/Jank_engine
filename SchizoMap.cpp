@@ -4,7 +4,7 @@
 
 #include "SchizoMap.h"
 
-void SchizoMap::add(Object* obj) {
+void SchizoMap::add(Object *obj) {
     const auto& obj_attr_map = obj->get_attr_map();
 
     std::unordered_set<std::string> attr_names;
@@ -31,7 +31,7 @@ void SchizoMap::add(Object* obj) {
     }
 }
 
-void SchizoMap::remove(Object* obj) {
+void SchizoMap::remove(Object *obj) {
     // remove from attr_metamap
     auto obj_attr_map = obj->get_attr_map();
     const auto& obj_attr_names = objs_to_attr_names[obj];
@@ -48,7 +48,7 @@ void SchizoMap::remove(Object* obj) {
     objs_to_attr_names.erase(obj);
 }
 
-std::unordered_set<Object*> SchizoMap::filter(const std::string& attr_name, const Object::attr_val_t & attr_val) {
+std::unordered_set<Object*> SchizoMap::filter(const std::string& attr_name, const Object::attr_val_t& attr_val) {
     return attr_metamap[attr_name][attr_val];
 }
 

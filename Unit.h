@@ -39,14 +39,14 @@ public:
                unit1.kg_exp == unit2.kg_exp &&
                unit1.seconds_exp == unit2.seconds_exp;
     };
-//    friend std::ostream& operator<<(std::ostream& os, const Unit& unit);
+    friend std::ostream& operator<<(std::ostream& ost, const Unit& unit);
 };
 
 std::size_t hash_value(Unit const& unit);
 
 const Unit METERS(1, 0, 0);
 const Unit SECONDS(0, 1, 0);
-const Unit KG(0, 0, 1);
+const Unit KILOGRAMS(0, 0, 1);
 const Unit UNITLESS(0, 0, 0);
 
 #endif //JANK_ENGINE_UNIT_H

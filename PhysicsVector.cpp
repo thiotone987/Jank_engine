@@ -4,20 +4,14 @@
 
 #include "PhysicsVector.h"
 
-PhysicsVector::PhysicsVector() : PhysicsVector(0, 0) {
-}
-
-PhysicsVector::PhysicsVector(double x, double y) : PhysicsVector(x, y, UNITLESS) {
-}
-
 PhysicsVector::PhysicsVector(double x, double y, Unit units) : units(units) {
     coords = std::shared_ptr<GLdouble>(new GLdouble[2]);
     coords[0] = x;
     coords[1] = y;
 }
 
-PhysicsVector PhysicsVector::construct_polar(double radius, double angle) {
-    return PhysicsVector(radius*std::cos(angle), radius*std::sin(angle));
+PhysicsVector PhysicsVector::construct_polar(double radius, double angle, Unit units) {
+    return PhysicsVector(radius*std::cos(angle), radius*std::sin(angle), units);
 }
 
 
@@ -72,6 +66,15 @@ std::ostream& operator<<(std::ostream& os, const PhysicsVector& vector) {
     os << "(" << vector.get_x() << ", " << vector.get_y() << ")";
     return os;
 }
+
+PhysicsVector operator*(const PhysicsVector& vector, const Unit& units) {
+    return PhysicsVector(vector.get_x(), vector.get_y(), vector.get_units()*units);
+}
+
+PhysicsVector operator*(const Unit& units, const PhysicsVector& vector) {
+    return vector*units;
+}
+
 
 std::size_t hash_value(PhysicsVector const& vec) {
     std::size_t seed = 0;

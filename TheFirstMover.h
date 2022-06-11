@@ -18,8 +18,6 @@ void per_second_movement(int);
 
 void end_motion();
 
-static std::thread motion_thread;
-
 static bool moving;
 
 #endif //JANK_ENGINE_THEFIRSTMOVER_H

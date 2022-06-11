@@ -9,6 +9,7 @@
 #include <OpenGL/gl.h>
 #include <cmath>
 #include <memory>
+#include <unordered_set>
 #include <boost/functional/hash.hpp>
 #include "Unit.h"
 
@@ -17,25 +18,21 @@ private:
     std::shared_ptr<GLdouble[]> coords;
     Unit units;
 public:
-    PhysicsVector();
-    PhysicsVector(GLdouble x, GLdouble y);
     PhysicsVector(GLdouble x, GLdouble y, Unit units);
 
-    static PhysicsVector construct_polar(GLdouble radius, GLdouble angle);
+    static PhysicsVector construct_polar(GLdouble radius, GLdouble angle, Unit units);
 
     [[nodiscard]] GLdouble get_x() const;
     void set_x(GLdouble x);
-
     [[nodiscard]] GLdouble get_y() const;
     void set_y(GLdouble y);
-
     [[nodiscard]] Unit get_units() const;
 
     [[nodiscard]] GLdouble* as_glvector() const;
 
-
-
     [[nodiscard]] PhysicsVector operator+(const PhysicsVector&) const;
+    friend PhysicsVector operator*(const PhysicsVector&, const Unit&);
+    friend PhysicsVector operator*(const Unit&, const PhysicsVector&);
 
     PhysicsVector& operator+=(const PhysicsVector&);
 

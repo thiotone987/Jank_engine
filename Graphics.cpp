@@ -6,8 +6,8 @@
 #include <cmath>
 
 
-void start_graphics(int* argcp, char* argv[]) {
-    glutInit(argcp, argv);
+void start_graphics(int* argc_p, char* argv[]) {
+    glutInit(argc_p, argv);
     glutInitDisplayMode(GLUT_SINGLE);
     glutInitWindowSize(400, 400);
     glutInitWindowPosition(100, 100);
@@ -30,7 +30,7 @@ void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVe
     const GLdouble center_vertex_dist = std::abs(side_len / (2 * std::sin(180.0 / num_sides)));
     for (int i = 0; i < num_sides; i++) {
         PhysicsVector point_coords =
-                PhysicsVector::construct_polar(center_vertex_dist,(2*M_PI/num_sides)*i)
+                PhysicsVector::construct_polar(center_vertex_dist,(2*M_PI/num_sides)*i, METERS)
                 + center_coords;
         glVertex2dv(point_coords.as_glvector());
     }

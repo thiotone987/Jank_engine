@@ -5,39 +5,23 @@
 #include "Graphics.h"
 #include "Unit.h"
 #include "SchizoMap.h"
-#include <boost/any.hpp>
 
 int main(int argc, char* argv []) {
-//    Object obj(PhysicsVector(-0.5, 0.5, Unit(0, 0, 0)), PhysicsVector(-0.01, 0.02, Unit(0, 0, 0)));
-//    Object obj2(PhysicsVector(0, 0, Unit(0, 0, 0)), PhysicsVector(0.05, 0, Unit(0, 0, 0)));
-//    start_motion();
-//    start_graphics(&argc, argv);
-    Unit velocity = METERS/SECONDS;
-    PhysicsVector some_distance = PhysicsVector(1, 2, METERS);
+    PhysicsVector some_distance = PhysicsVector(0.1, 0.2, METERS);
     Object obj(some_distance);
-    PhysicsVector some_velocity = PhysicsVector(3, 2, METERS/SECONDS);
+    PhysicsVector some_velocity = PhysicsVector(0.03, 0.02, METERS/SECONDS);
     Object obj2(some_distance, some_velocity);
-    SchizoMap help;
-
-    help.add(&obj);
-    help.add(&obj2);
-    std::cout << help << std::endl;
-    help.remove(&obj);
-    help.remove(&obj2);
-    auto a = help.filter("position", PhysicsVector(1, 2, METERS));
-    for (const auto& aa : a) {
-        std::cout << aa->get_position() << std::endl;
+    SchizoMap schizo_map;
+    schizo_map.add(&obj);
+    schizo_map.add(&obj2);
+    std::cout << schizo_map << std::endl;
+    schizo_map.remove(&obj);
+    auto filter_result = schizo_map.filter("position", PhysicsVector(1, 2, METERS));
+    for (const auto& obj_p : filter_result) {
+        std::cout << *obj_p << std::endl;
     }
-//
-//    Object obj1(PhysicsVector(0.5, 0.2), PhysicsVector(0.05, 0.02));
-//    start_motion();
-//
-//    start_graphics(&argc, argv);
-//
-//    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-//        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-//        return 1;
-//    }
+    start_motion();
+    start_graphics(&argc, argv);
 
 //
 //    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {

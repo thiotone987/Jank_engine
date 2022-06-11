@@ -24,6 +24,7 @@ public:
     [[nodiscard]] constexpr int get_meters_exp() const { return meters_exp; };
     [[nodiscard]] constexpr int get_seconds_exp() const { return seconds_exp; };
     [[nodiscard]] constexpr int get_kg_exp() const { return kg_exp; };
+
     constexpr friend Unit operator*(Unit unit1, Unit unit2) {
         return Unit(unit1.get_meters_exp() + unit2.get_meters_exp(),
                     unit1.get_seconds_exp() + unit2.get_seconds_exp(),
@@ -34,6 +35,12 @@ public:
                     unit1.get_seconds_exp() - unit2.get_seconds_exp(),
                     unit1.get_kg_exp() - unit2.get_kg_exp());
     };
+    constexpr friend Unit operator^(Unit unit, int exp) {
+        return Unit(unit.get_meters_exp()*exp,
+                    unit.get_seconds_exp()*exp,
+                    unit.get_kg_exp()*exp);
+    }
+
     constexpr friend bool operator==(Unit unit1, Unit unit2) {
         return unit1.meters_exp == unit2.meters_exp &&
                unit1.kg_exp == unit2.kg_exp &&
@@ -44,9 +51,9 @@ public:
 
 std::size_t hash_value(Unit const& unit);
 
-const Unit METERS(1, 0, 0);
-const Unit SECONDS(0, 1, 0);
-const Unit KILOGRAMS(0, 0, 1);
-const Unit UNITLESS(0, 0, 0);
+constexpr Unit METERS(1, 0, 0);
+constexpr Unit SECONDS(0, 1, 0);
+constexpr Unit KILOGRAMS(0, 0, 1);
+constexpr Unit UNITLESS(0, 0, 0);
 
 #endif //JANK_ENGINE_UNIT_H

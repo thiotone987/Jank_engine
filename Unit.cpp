@@ -13,40 +13,45 @@ std::size_t hash_value(Unit const& unit) {
 }
 
 std::ostream& operator<<(std::ostream& ost, const Unit& unit) {
-    std::vector<std::string> numerator;
-    std::vector<int> numerator_exps;
-    std::vector<std::string> denominator;
-    std::vector<int> denominator_exps;
-
-#define ADD_TO_NUM_OR_DENOM(_unit_name, _unit_exp) \
-    if ((_unit_exp) > 0) { \
-        numerator.emplace_back(_unit_name); \
-        numerator_exps.push_back(_unit_exp); \
-    } \
-    else if ((_unit_exp) < 0) { \
-        denominator.emplace_back(_unit_name); \
-        denominator_exps.push_back(_unit_exp); \
+    if (unit == UNITLESS) {
+        ost << "(unitless)";
+        return ost;
     }
 
-    ADD_TO_NUM_OR_DENOM("kg", unit.get_kg_exp())
-    ADD_TO_NUM_OR_DENOM("m", unit.get_meters_exp())
-    ADD_TO_NUM_OR_DENOM("s", unit.get_seconds_exp())
-#undef ADD_TO_NUM_OR_DENOM
+    // Each entry in the map represents a component of the unit (e.g. kilograms).
+    // The string is the shortened name, e.g. "kg", and the int is the exponent, e.g. -2 in kg^-2
+    std::map<std::string, int> numerator;
+    std::map<std::string, int> denominator;
 
-    for (int i = 0; i < numerator.size(); i++) {
-        if (i != 0) ost << "*";
-        ost << numerator[i];
-        if (numerator_exps[i] > 1) ost << "^" << numerator_exps[i];
-    }
+#define ADD_TO_APPROPRIATE_FRACTION_PART(_unit_name, _unit_exp) \
+if ((_unit_exp) > 0) { \
+    numerator.emplace(_unit_name, _unit_exp); \
+} \
+else if ((_unit_exp) < 0) { \
+    denominator.emplace(_unit_name, _unit_exp); \
+}
+
+#define PRINT_FRACTION_PART(_part) \
+for (auto iter=(_part).begin(); iter != (_part).end(); iter++) { \
+    const std::string& unit_name = iter->first; \
+    int unit_exp = iter->second; \
+    if (iter != _part.begin()) ost << "*"; \
+    ost << unit_name; \
+    if (std::abs(unit_exp) > 1) ost << "^" << std::abs(unit_exp); \
+}
+
+    ADD_TO_APPROPRIATE_FRACTION_PART("kg", unit.get_kg_exp())
+    ADD_TO_APPROPRIATE_FRACTION_PART("m", unit.get_meters_exp())
+    ADD_TO_APPROPRIATE_FRACTION_PART("s", unit.get_seconds_exp())
+
+    PRINT_FRACTION_PART(numerator)
     if (!denominator.empty()) ost << "/";
-
     if (denominator.size() > 1) ost << "(";
-    for (int i = 0; i < denominator.size(); i++) {
-        if (i != 0) ost << "*";
-        ost << denominator[i];
-        if (denominator_exps[i] > 1) ost << "^" << denominator_exps[i];
-    }
+    PRINT_FRACTION_PART(denominator)
     if (denominator.size() > 1) ost << ")";
 
     return ost;
+
+#undef ADD_TO_APPROPRIATE_FRACTION_PART
+#undef PRINT_FRACTION_PART
 }

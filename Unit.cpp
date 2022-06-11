@@ -45,7 +45,10 @@ for (auto iter=(_part).begin(); iter != (_part).end(); iter++) { \
     ADD_TO_APPROPRIATE_FRACTION_PART("s", unit.get_seconds_exp())
 
     PRINT_FRACTION_PART(numerator)
-    if (!denominator.empty()) ost << "/";
+    if (!denominator.empty()) {
+        if (numerator.empty()) ost << "1";
+        ost << "/";
+    }
     if (denominator.size() > 1) ost << "(";
     PRINT_FRACTION_PART(denominator)
     if (denominator.size() > 1) ost << ")";

@@ -9,7 +9,6 @@
 - Second vector is initially copied from first
 - Second vector is the one actually displayed
 - When running stops, second vector is destroyed, and first vector is re-copied over to the second
-#### Idea 2: Lazy copying hell
 
 ### load()
 - Overwrite the window with its garbage
@@ -17,5 +16,10 @@
 ### unload()
 - Wipe window
 ### run()
+
+### layer system thingy
+- essentially we need a way to update
+- the screen whilst keeping the background in the back
+- and keeping the character moving
 
 ### stop_run()

@@ -21,7 +21,7 @@ void per_second_movement(int) {
     for (Object *obj: objects) {
         obj->move(obj->get_velocity()*SECONDS);
     }
-    glutPostRedisplay();
+//    glutPostRedisplay();
 }
 
 void end_motion() {

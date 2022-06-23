@@ -14,6 +14,12 @@
 #include "Object.h"
 #include "PhysicsVector.h"
 
+template<typename T>
+concept Iterable = requires(T obj){
+    obj.begin();
+    obj.end();
+};
+
 class SchizoMap {
 private:
     std::unordered_map<

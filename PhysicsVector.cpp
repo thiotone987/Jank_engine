@@ -5,7 +5,7 @@
 #include "PhysicsVector.h"
 
 PhysicsVector::PhysicsVector(double x, double y, Unit units) : units(units) {
-    coords = std::shared_ptr<GLdouble>(new GLdouble[2]);
+    coords = std::shared_ptr<GLdouble[]>(new GLdouble[2]);
     coords[0] = x;
     coords[1] = y;
 }
@@ -62,9 +62,13 @@ bool operator==(const PhysicsVector& vec1, const PhysicsVector& vec2) {
     && vec1.get_units() == vec2.get_units();
 }
 
-std::ostream& operator<<(std::ostream& os, const PhysicsVector& vector) {
-    os << "(" << vector.get_x() << ", " << vector.get_y() << ")";
-    return os;
+std::ostream& operator<<(std::ostream& ost, const PhysicsVector& vector) {
+    ost << "("
+        << vector.get_x() << " " <<  vector.get_units()
+        << ", "
+        << vector.get_y() << " " <<  vector.get_units()
+        << ")";
+    return ost;
 }
 
 PhysicsVector operator*(const PhysicsVector& vector, const Unit& units) {

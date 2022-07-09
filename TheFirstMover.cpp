@@ -3,7 +3,7 @@
 //
 
 #include "TheFirstMover.h"
-#include <GLUT/glut.h>
+#include <GL/glut.h>
 
 
 void start_motion() {

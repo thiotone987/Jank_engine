@@ -8,7 +8,7 @@
 std::map<GLint, void (*)()> windowIDs_to_display_funcs;
 
 void start_graphics(int* argc_p, char* argv[]){
-    glutInit(argc_p, argv);
+    //glutInit(argc_p, argv);
 
     glutInitDisplayMode(GLUT_DOUBLE);
     glutInitWindowSize(400, 400);

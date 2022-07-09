@@ -6,7 +6,7 @@
 #define JANK_ENGINE_PHYSICSVECTOR_H
 
 #include <iostream>
-#include <OpenGL/gl.h>
+#include <GL/gl.h>
 #include <cmath>
 #include <memory>
 #include <unordered_set>

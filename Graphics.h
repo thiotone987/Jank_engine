@@ -5,10 +5,9 @@
 #ifndef JANK_ENGINE_GRAPHICS_H
 #define JANK_ENGINE_GRAPHICS_H
 
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include <GLUT/glut.h>
-#include <SDL_image.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 #include <cmath>
 #include <thread>
 #include <chrono>

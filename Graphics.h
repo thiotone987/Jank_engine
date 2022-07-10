@@ -5,8 +5,15 @@
 #ifndef JANK_ENGINE_GRAPHICS_H
 #define JANK_ENGINE_GRAPHICS_H
 
-#include <GLUT/glut.h>
-#include <SDL_image.h>
+#ifdef _DARWIN
+    #include <GLUT/glut.h>
+#endif
+#ifdef _WINDOWS
+    #include <GL/glut.h>
+#endif
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
 #include <cmath>
 #include <thread>
 #include <chrono>
@@ -17,6 +24,7 @@
 
 void start_graphics(int *argc_p, char *argv[]);
 void start_two_windows(int *argc_p, char *argv[]);
+void start_special_graphics(int width, int height);
 void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector& center_coords);
 void redisplay(int millis);
 void display_func();

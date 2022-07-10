@@ -3,8 +3,6 @@
 //
 
 #include "TheFirstMover.h"
-#include <GLUT/glut.h>
-
 
 void start_motion() {
     moving = true;

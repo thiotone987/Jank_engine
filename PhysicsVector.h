@@ -5,8 +5,15 @@
 #ifndef JANK_ENGINE_PHYSICSVECTOR_H
 #define JANK_ENGINE_PHYSICSVECTOR_H
 
+
+#ifdef _DARWIN
+    #include <OpenGL/gl.h>
+#endif
+#ifdef _WINDOWS
+    #include <GL/gl.h>
+#endif
+
 #include <iostream>
-#include <GLUT/glut.h>
 #include <cmath>
 #include <memory>
 #include <unordered_set>

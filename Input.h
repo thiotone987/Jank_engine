@@ -5,7 +5,7 @@
 #ifndef JANK_ENGINE_INPUT_H
 #define JANK_ENGINE_INPUT_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 class Input {
 private:

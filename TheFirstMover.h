@@ -5,6 +5,12 @@
 #ifndef JANK_ENGINE_THEFIRSTMOVER_H
 #define JANK_ENGINE_THEFIRSTMOVER_H
 
+#ifdef _DARWIN
+    #include <GLUT/glut.h>
+#endif
+#ifdef _WINDOWS
+    #include <GL/glut.h>
+#endif
 
 #include <thread>
 #include <chrono>

@@ -75,8 +75,8 @@ Message("")
 
 # ------- Inc & Link ---- #
 
-INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2Mixer_INCLUDE_DIR})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY} )
+INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR} ${SDL2Mixer_INCLUDE_DIR})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2Mixer_LIBRARY} )
 
 # ------- End ----------- #
 
@@ -85,7 +85,17 @@ find_package(GLUT REQUIRED)
 find_package(Boost REQUIRED)
 
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-target_link_libraries(Jank_engine ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+
+target_link_libraries(Jank_engine ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES})
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(Jank_engine ${CMAKE_CURRENT_BINARY_DIR}/freeglut.dll)
+endif()
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_compile_definitions(_WINDOWS)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    add_compile_definitions(_DARWIN)
+endif()
 
 add_compile_definitions(GL_SILENCE_DEPRECATION)
 add_compile_options(-Wall -Wextra -Wpedantic)

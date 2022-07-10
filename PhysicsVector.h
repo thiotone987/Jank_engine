@@ -26,6 +26,7 @@ private:
     Unit units;
 public:
     PhysicsVector(GLdouble x, GLdouble y, Unit units);
+    PhysicsVector(const PhysicsVector& other);
 
     static PhysicsVector construct_polar(GLdouble radius, GLdouble angle, Unit units);
 
@@ -41,6 +42,7 @@ public:
     friend PhysicsVector operator*(const PhysicsVector&, const Unit&);
     friend PhysicsVector operator*(const Unit&, const PhysicsVector&);
 
+    PhysicsVector& operator=(const PhysicsVector&);
     PhysicsVector& operator+=(const PhysicsVector&);
 
     friend bool operator==(const PhysicsVector& vec1, const PhysicsVector& vec2);

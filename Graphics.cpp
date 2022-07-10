@@ -3,26 +3,15 @@
 //
 
 #include "Graphics.h"
+#include "Game.h"
 
-std::map<GLint, std::function<void()>> windowIDs_to_display_funcs;
+std::vector<Game*> games;
 
 void start_graphics(int* argc_p, char* argv[]){
-    glutInitDisplayMode(GLUT_DOUBLE);
-    glutInitWindowSize(400, 400);
-    glutInitWindowPosition(100, 100);
-    GLint WindowID1 = glutCreateWindow("Hello world!");
-    glutSetWindow(WindowID1);
-    glutDisplayFunc(display_func);
-    windowIDs_to_display_funcs.emplace(WindowID1, &display_func_1);
-
-    glutInitDisplayMode(GLUT_DOUBLE);
-    glutInitWindowSize(400, 400);
-    glutInitWindowPosition(100, 100);
-    GLint WindowID2 = glutCreateWindow("Hello!");
-    glutSetWindow(WindowID2);
-    glutPositionWindow(0, 0);
-    glutDisplayFunc(display_func);
-    windowIDs_to_display_funcs.emplace(WindowID2, &display_func_2);
+    for (Game *game : games) {
+        game->load();
+        game->run();
+    }
 
     glutMainLoop();
 }
@@ -44,17 +33,17 @@ void start_special_graphics(int width, int height){
     const char* vidDriver = SDL_GetCurrentVideoDriver();
 
     if(If_this_is_not_zero_we_have_issues != 0){
-        SDL_Log("Display mode dun work bruh", dispIndex, SDL_GetError());
+        SDL_Log("Display mode dun work bruh (dispIndex: %d) (error: %s)", dispIndex, SDL_GetError());
     }
     else{
         SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", dispIndex, currentMode.w, currentMode.h, currentMode.refresh_rate);
     }
 
-    if(vidDriver == NULL){
-        SDL_Log("No Video Driver? NO HAPPINESS", SDL_GetError());
+    if(vidDriver == nullptr){
+        SDL_Log("No Video Driver? NO HAPPINESS (error: %s)", SDL_GetError());
     }
     else{
-        SDL_Log("Current Video Driver:", vidDriver);
+        SDL_Log("Current Video Driver: %s", vidDriver);
     }
 
     if(SDL_Init(SDL_INIT_VIDEO) < 0){
@@ -81,46 +70,15 @@ void start_special_graphics(int width, int height){
 }
 
 void display_func() {
-    for (auto [windowID, window_display_func] : windowIDs_to_display_funcs) {
-        glutSetWindow(windowID);
-        window_display_func();
+    for (Game *game : games) {
+        glClear(GL_COLOR_BUFFER_BIT);
+        game->my_display_func();
     }
     glutPostRedisplay();
 }
 
-void display_func_1()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(1.0f, 0.5f, 0.3f);
-    load_objects();
-    glutSwapBuffers();
-}
-void display_func_2()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(0.5f, 0.5f, 0.3f);
-    load_objects();
-    glutSwapBuffers();
-}
 
 
-void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector& center_coords) {
-    glBegin(GL_POLYGON);
-    const GLdouble center_vertex_dist = std::abs(side_len / (2 * std::sin(180.0 / num_sides)));
-    for (int i = 0; i < num_sides; i++) {
-        PhysicsVector point_coords =
-                PhysicsVector::construct_polar(center_vertex_dist,(2*M_PI/num_sides)*i, METERS)
-                + center_coords;
-        glVertex2dv(point_coords.as_glvector());
-    }
-    glEnd();
-}
-
-void load_objects() {
-    for (Object *object : objects) {
-        load_regular_polygon(4, 0.2, object->position);
-    }
-}
 
 void load_sprite(const std::string& file_path){
 

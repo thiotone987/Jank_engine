@@ -18,9 +18,10 @@
 #include <thread>
 #include <chrono>
 #include <map>
-
 #include "Object.h"
+#include "Game.h"
 
+extern std::vector<Game*> games;
 
 void start_graphics(int *argc_p, char *argv[]);
 void start_two_windows(int *argc_p, char *argv[]);

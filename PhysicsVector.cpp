@@ -10,6 +10,18 @@ PhysicsVector::PhysicsVector(double x, double y, Unit units) : units(units) {
     coords[1] = y;
 }
 
+PhysicsVector::PhysicsVector(const PhysicsVector& other) : PhysicsVector(other.get_x(), other.get_y(), other.units) {
+}
+
+PhysicsVector& PhysicsVector::operator=(const PhysicsVector& other) {
+    if (this->units != other.units) {
+        std::cout << "you idiot. you moron. you absolute bufoon. you ";
+        exit(1);
+    }
+    coords[0] = other.get_x();
+    coords[1] = other.get_y();
+}
+
 PhysicsVector PhysicsVector::construct_polar(double radius, double angle, Unit units) {
     return PhysicsVector(radius*std::cos(angle), radius*std::sin(angle), units);
 }

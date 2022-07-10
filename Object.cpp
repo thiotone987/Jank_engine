@@ -16,11 +16,9 @@ Object::Object(PhysicsVector initial_position)
 
 Object::Object(PhysicsVector initial_position, PhysicsVector initial_velocity)
 : position(std::move(initial_position)), velocity(std::move(initial_velocity)) {
-    objects.insert(this);
 }
 
 Object::~Object() {
-    objects.erase(this);
 }
 
 void Object::move(const PhysicsVector& displacement) {

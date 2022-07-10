@@ -6,7 +6,7 @@
 #define JANK_ENGINE_PHYSICSVECTOR_H
 
 #include <iostream>
-#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
 #include <cmath>
 #include <memory>
 #include <unordered_set>
@@ -28,7 +28,7 @@ public:
     void set_y(GLdouble y);
     [[nodiscard]] Unit get_units() const;
 
-    [[nodiscard]] GLdouble* as_glvector() const;
+    [[nodiscard]] const GLdouble* as_glvector() const;
 
     [[nodiscard]] PhysicsVector operator+(const PhysicsVector&) const;
     friend PhysicsVector operator*(const PhysicsVector&, const Unit&);

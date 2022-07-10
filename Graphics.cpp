@@ -3,13 +3,10 @@
 //
 
 #include "Graphics.h"
-#include <cmath>
 
-std::map<GLint, void (*)()> windowIDs_to_display_funcs;
+std::map<GLint, std::function<void()>> windowIDs_to_display_funcs;
 
 void start_graphics(int* argc_p, char* argv[]){
-    glutInit(argc_p, argv);
-
     glutInitDisplayMode(GLUT_DOUBLE);
     glutInitWindowSize(400, 400);
     glutInitWindowPosition(100, 100);
@@ -27,7 +24,6 @@ void start_graphics(int* argc_p, char* argv[]){
     glutDisplayFunc(display_func);
     windowIDs_to_display_funcs.emplace(WindowID2, &display_func_2);
 
-
     glutMainLoop();
 }
 
@@ -36,7 +32,6 @@ void display_func() {
         glutSetWindow(windowID);
         window_display_func();
     }
-    glutSetWindow(windowIDs_to_display_funcs.begin()->first);
     glutPostRedisplay();
 }
 
@@ -58,7 +53,6 @@ void display_func_2()
 
 void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector& center_coords) {
     glBegin(GL_POLYGON);
-    //glVertex2f();
     const GLdouble center_vertex_dist = std::abs(side_len / (2 * std::sin(180.0 / num_sides)));
     for (int i = 0; i < num_sides; i++) {
         PhysicsVector point_coords =
@@ -71,14 +65,14 @@ void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVe
 
 void load_objects() {
     for (Object *object : objects) {
-        load_regular_polygon(4, 0.2, object->get_position());
+        load_regular_polygon(4, 0.2, object->position);
     }
 }
 
-void load_sprite(std::string file_path){
+void load_sprite(const std::string& file_path){
 
 }
 
-void load_background(std::string file_path){
+void load_background(const std::string& file_path){
 
 }

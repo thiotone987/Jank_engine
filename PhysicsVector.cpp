@@ -35,7 +35,7 @@ Unit PhysicsVector::get_units() const {
     return units;
 }
 
-GLdouble* PhysicsVector::as_glvector() const {
+const GLdouble* PhysicsVector::as_glvector() const {
     return this->coords.get();
 }
 

@@ -5,6 +5,8 @@
 #ifndef JANK_ENGINE_GAME_H
 #define JANK_ENGINE_GAME_H
 
+#include <cmath>
+#include <functional>
 #include <vector>
 #include "Object.h"
 

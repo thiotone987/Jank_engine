@@ -40,7 +40,7 @@ void SchizoMap::remove(Object *obj) {
     objs_to_attr_names.erase(obj);
 }
 
-std::unordered_set<Object*> SchizoMap::filter(const std::string& attr_name, const Object::attr_val_t& attr_val) {
+std::unordered_set<Object*> SchizoMap::filter(const std::string& attr_name, const Object::attr_variant_t& attr_val) {
     return attr_metamap[attr_name][attr_val];
 }
 

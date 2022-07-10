@@ -20,6 +20,7 @@ int main(int argc, char* argv []) {
     for (const auto& obj_p : filter_result) {
         std::cout << *obj_p << std::endl;
     }
+    glutInit(&argc, argv);
     start_motion();
     start_graphics(&argc, argv);
 

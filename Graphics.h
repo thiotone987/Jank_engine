@@ -5,8 +5,6 @@
 #ifndef JANK_ENGINE_GRAPHICS_H
 #define JANK_ENGINE_GRAPHICS_H
 
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
 #include <GLUT/glut.h>
 #include <SDL_image.h>
 #include <cmath>
@@ -25,8 +23,8 @@ void display_func();
 void display_func_1();
 void display_func_2();
 void load_objects();
-void load_sprite(std::string file_path);
+void load_sprite(const std::string& file_path);
 //the only difference between the two is the
 //status in render queue
-void load_background(std::string file_path);
+void load_background(const std::string& file_path);
 #endif //JANK_ENGINE_GRAPHICS_H

@@ -25,16 +25,16 @@ private:
     std::unordered_map<
         std::string,
         std::unordered_map<
-            Object::attr_val_t,
+            Object::attr_variant_t,
             std::unordered_set<Object*>,
-            boost::hash<Object::attr_val_t>
+            boost::hash<Object::attr_variant_t>
         >
     > attr_metamap;
     std::unordered_map<Object*, std::unordered_set<std::string>> objs_to_attr_names;
 public:
     void add(Object *obj);
     void remove(Object *obj);
-    std::unordered_set<Object*> filter(const std::string& attr_name, const Object::attr_val_t& attr_val);
+    std::unordered_set<Object*> filter(const std::string& attr_name, const Object::attr_variant_t& attr_val);
 
     friend std::ostream& operator<<(std::ostream& ost, const SchizoMap& schizo_map);
 };

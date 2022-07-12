@@ -4,6 +4,13 @@
 
 #include "SchizoMap.h"
 
+// Identical to std::ranges::range
+// Remove when Apple Clang adds std::ranges::range to the standard library
+template<class T>
+concept range = requires( T& t ) {
+    std::ranges::begin(t);
+    std::ranges::end(t);
+};
 
 void SchizoMap::add(Object *obj) {
     const auto& obj_attr_map = obj->get_attr_map();
@@ -47,7 +54,7 @@ std::unordered_set<Object*> SchizoMap::filter(const std::string& attr_name, cons
     return attr_metamap[attr_name][attr_val];
 }
 
-std::ostream& print_with_separator(std::ostream& ost, const std::ranges::range auto& container, const std::string& separator) {
+std::ostream& print_with_separator(std::ostream& ost, const range auto& container, const std::string& separator) {
     for (auto attr_name = container.begin(); attr_name != container.end(); attr_name++) {
         ost << *attr_name;
         if (std::next(attr_name) != container.end()) ost << separator;

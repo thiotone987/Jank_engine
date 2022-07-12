@@ -6,16 +6,21 @@
 #include "SchizoMap.h"
 
 int main(int argc, char* argv []) {
-    PhysicsVector some_position = PhysicsVector(0.1, 0.2, METERS);
+    PhysicsVector some_position = PhysicsVector(METERS, 0.1, 0.2);
     Object obj(some_position);
-    PhysicsVector some_other_position = PhysicsVector(0.2, 0.3, METERS);
-    PhysicsVector some_velocity = PhysicsVector(0.03, 0.02, METERS/SECONDS);
+    PhysicsVector some_velocity = PhysicsVector(METERS / SECONDS, 0.03, 0.02);
     Object obj2(some_position, some_velocity);
-
-    std::vector<Object*> hi = {&obj};
+    std::vector<Object*> hi;
+    for (double i = -0.5; i < 0.5; i += 0.01) {
+        PhysicsVector pos = PhysicsVector(METERS, i, i);
+        PhysicsVector v = PhysicsVector(METERS / SECONDS, i, i);
+        hi.push_back(new Object(pos, v));
+    }
     Game game1(hi);
-    std::vector<Object*> hii = {&obj2};
-    Game game2(hii);
+
+    std::vector<Object*> hola = {&obj, &obj2};
+    Game game2(hola);
+
 
     glutInit(&argc, argv);
     start_graphics(&argc, argv);

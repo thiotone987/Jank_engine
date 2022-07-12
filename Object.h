@@ -22,8 +22,6 @@ public:
     Object();
     explicit Object(PhysicsVector initial_position);
     Object(PhysicsVector initial_position, PhysicsVector initial_velocity);
-    ~Object();
-    void move(const PhysicsVector& displacement);
 
     [[nodiscard]] std::unordered_map<std::string, attr_variant_t> get_attr_map() const {
         std::unordered_map<std::string, attr_variant_t> output;

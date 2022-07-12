@@ -116,8 +116,7 @@ int two_SDL_windows(int *argc, char *argv[]){
                     holder=NULL;
                 }
             }
-            if(holder = NULL){
-                //kind of redundant
+            if(event.type == SDL_QUIT){
                 state_flag = false;
             }
         }

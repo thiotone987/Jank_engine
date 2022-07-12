@@ -15,6 +15,7 @@
 #include <cmath>
 #include <functional>
 #include <vector>
+#include <ranges>
 
 #include "Object.h"
 
@@ -27,7 +28,7 @@ private:
 public:
     GLint windowID;
 
-    Game(std::vector<Object*>& objects) noexcept;
+    explicit Game(std::vector<Object*>& objects) noexcept;
     void my_display_func();
     void load();
     void run();

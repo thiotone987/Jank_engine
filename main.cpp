@@ -6,6 +6,8 @@
 #include "SchizoMap.h"
 
 int main(int argc, char* argv []) {
+    bool flag = false;
+
     PhysicsVector some_position = PhysicsVector(0.1, 0.2, METERS);
     Object obj(some_position);
     PhysicsVector some_other_position = PhysicsVector(0.2, 0.3, METERS);
@@ -17,8 +19,10 @@ int main(int argc, char* argv []) {
     std::vector<Object*> hii = {&obj2};
     Game game2(hii);
 
-    glutInit(&argc, argv);
-    start_graphics(&argc, argv);
+    //start_special_graphics(&argc, argv);
+    two_SDL_windows(&argc, argv);
+    //glutInit(&argc, argv);
+    //start_graphics(&argc, argv);
 
     return 0;
 }

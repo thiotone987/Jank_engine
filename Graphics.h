@@ -18,6 +18,7 @@
 #include <thread>
 #include <chrono>
 #include <map>
+#include <vector>
 #include "Object.h"
 #include "Game.h"
 
@@ -25,7 +26,8 @@ extern std::vector<Game*> games;
 
 void start_graphics(int *argc_p, char *argv[]);
 void start_two_windows(int *argc_p, char *argv[]);
-void start_special_graphics(int width, int height);
+int start_special_graphics(int *argc, char *argv[]);
+int two_SDL_windows(int *argc, char *argv[]);
 void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector& center_coords);
 void redisplay(int millis);
 void display_func();

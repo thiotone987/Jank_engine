@@ -16,15 +16,34 @@ void start_graphics(int* argc_p, char* argv[]){
     glutMainLoop();
 }
 
-void start_special_graphics(int width, int height){
-    const char* title = "help";
+int start_special_graphics(int* argc, char* argv[]){
+    //const char* title = "help";
+    bool state_flag = true;
+    SDL_Window *sdlWindow;
+    SDL_Renderer *sdlRenderer;
     SDL_DisplayMode currentMode;
-    SDL_Window *sdlWindow = SDL_CreateWindow(title,
-                                             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                             0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
-    SDL_Renderer *sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, 0);
-    SDL_CreateWindowAndRenderer(0, 0,SDL_WINDOW_FULLSCREEN_DESKTOP,
-                                &sdlWindow, &sdlRenderer);
+    SDL_Event event;
+
+    int defHeight = 240;
+    int defWidth = 320;
+
+    SDL_Init(SDL_INIT_VIDEO);
+
+    if(SDL_CreateWindowAndRenderer(defWidth, defHeight, SDL_WINDOW_RESIZABLE,
+                                &sdlWindow, &sdlRenderer)){
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create window and renderer: %s", SDL_GetError());
+        return 3;
+    }
+    else{
+        while(state_flag){
+            while(SDL_PollEvent(&event) != 0){
+                if(event.type == SDL_QUIT){
+                    std::cout << "haha get stick bugged" << std::endl;
+                    state_flag = false;
+                }
+            }
+        }
+    }
 
     int dispIndex;
     int bpp = 0;
@@ -34,6 +53,7 @@ void start_special_graphics(int width, int height){
 
     if(If_this_is_not_zero_we_have_issues != 0){
         SDL_Log("Display mode dun work bruh (dispIndex: %d) (error: %s)", dispIndex, SDL_GetError());
+        return 3;
     }
     else{
         SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", dispIndex, currentMode.w, currentMode.h, currentMode.refresh_rate);
@@ -41,32 +61,73 @@ void start_special_graphics(int width, int height){
 
     if(vidDriver == nullptr){
         SDL_Log("No Video Driver? NO HAPPINESS (error: %s)", SDL_GetError());
+        return 3;
     }
     else{
         SDL_Log("Current Video Driver: %s", vidDriver);
     }
 
-    if(SDL_Init(SDL_INIT_VIDEO) < 0){
-        fprintf(stderr, "Video initilization screwed us over: %s\n",
-                SDL_GetError());
-        //insert some intelligent way to kill the program
-    }
     SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
     SDL_RenderClear(sdlRenderer);
     SDL_RenderPresent(sdlRenderer);
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    SDL_RenderSetLogicalSize(sdlRenderer, width, height);
+    SDL_RenderSetLogicalSize(sdlRenderer, defWidth, defHeight);
 
     //The code below draws a texture to test the efficacy of the renderer
 
     SDL_Texture *sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_ARGB8888,
-                                    SDL_TEXTUREACCESS_STREAMING, width, height);
+                                    SDL_TEXTUREACCESS_STREAMING, 0, 0);
     extern Uint32 myPixels;
+
+    //SDL_Quit();
 
     //SDL_UpdateTexture(sdlTexture, NULL, myPixels, width * sizeof (Uint32)); non functional
     //quick tip, SDL_VideoInfo has been replaced by SDL_GetRendererINfo() and SDL_GetRenderrDriverInfo()
     //** WARNING ** NONE OF THIS IS FUNCTIONAL UNTIL FURTHER TESTING IS COMMITED
+    return 0;
+}
+
+int two_SDL_windows(int *argc, char *argv[]){
+    SDL_Window *window=SDL_CreateWindow("Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 800, SDL_WINDOW_OPENGL);
+    SDL_Window *window1=SDL_CreateWindow("Window1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 800, SDL_WINDOW_OPENGL);
+    SDL_Window *holder;
+
+    //std::vector<SDL_Window> closed_windows[0];
+    SDL_Event event;
+    bool state_flag = true;
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+    SDL_GLContext glContext=SDL_GL_CreateContext(window);
+
+    SDL_GL_SetSwapInterval(SDL_FALSE);
+
+    SDL_GL_MakeCurrent(window, glContext);
+
+    while(state_flag){
+        while(SDL_PollEvent(&event)){
+            if((event.type==SDL_WINDOWEVENT) && (event.window.event == SDL_WINDOWEVENT_CLOSE)){
+                holder = SDL_GetWindowFromID(event.window.windowID);
+                if((holder != NULL)){
+                    //closed_windows.push_back(holder);
+                    SDL_DestroyWindow(holder);
+                    holder=NULL;
+                }
+            }
+            if(holder = NULL){
+                //kind of redundant
+                state_flag = false;
+            }
+        }
+
+        glClearColor(0, 0, 0, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        SDL_GL_SwapWindow(window);
+    }
+    return 0;
 }
 
 void display_func() {

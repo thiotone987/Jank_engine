@@ -20,7 +20,7 @@ int start_special_graphics(int* argc, char* argv[]){
     //const char* title = "help";
     bool state_flag = true;
     SDL_Window *sdlWindow;
-    SDL_Renderer *sdlRenderer;
+    SDL_GLContext maincontext;
     SDL_DisplayMode currentMode;
     SDL_Event event;
 
@@ -29,13 +29,38 @@ int start_special_graphics(int* argc, char* argv[]){
 
     SDL_Init(SDL_INIT_VIDEO);
 
-    if(SDL_CreateWindowAndRenderer(defWidth, defHeight, SDL_WINDOW_RESIZABLE,
-                                &sdlWindow, &sdlRenderer)){
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+/* Turn on double buffering with a 24bit Z buffer.
+ * You may need to change this to 16 or 32 for your system */
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+
+    sdlWindow = SDL_CreateWindow("YIKES", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                 1600, 800, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+
+    maincontext = SDL_GL_CreateContext(sdlWindow);
+
+    //fights screen tear by syncing to vert refresh rate
+    SDL_GL_SetSwapInterval(1);
+
+    glClearColor(1.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    SDL_GL_SwapWindow(sdlWindow);
+
+    SDL_Delay(200);
+
+    if(sdlWindow == NULL){
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create window and renderer: %s", SDL_GetError());
         return 3;
     }
     else{
         while(state_flag){
+            //draw some shit
             while(SDL_PollEvent(&event) != 0){
                 if(event.type == SDL_QUIT){
                     std::cout << "haha get stick bugged" << std::endl;
@@ -67,17 +92,16 @@ int start_special_graphics(int* argc, char* argv[]){
         SDL_Log("Current Video Driver: %s", vidDriver);
     }
 
-    SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
-    SDL_RenderClear(sdlRenderer);
-    SDL_RenderPresent(sdlRenderer);
+    //SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
+    //SDL_RenderClear(sdlRenderer);
+    //SDL_RenderPresent(sdlRenderer);
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    SDL_RenderSetLogicalSize(sdlRenderer, defWidth, defHeight);
+    //SDL_RenderSetLogicalSize(sdlRenderer, defWidth, defHeight);
 
     //The code below draws a texture to test the efficacy of the renderer
 
-    SDL_Texture *sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_ARGB8888,
-                                    SDL_TEXTUREACCESS_STREAMING, 0, 0);
+    //SDL_Texture *sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, 0, 0);
     extern Uint32 myPixels;
 
     //SDL_Quit();

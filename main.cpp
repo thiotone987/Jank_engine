@@ -23,8 +23,8 @@ int main(int argc, char* argv []) {
     Game game2(hola);
 
 
-    //start_special_graphics(&argc, argv);
-    two_SDL_windows(&argc, argv);
+    start_special_graphics(&argc, argv);
+    //two_SDL_windows(&argc, argv);
     //glutInit(&argc, argv);
     //start_graphics(&argc, argv);
 

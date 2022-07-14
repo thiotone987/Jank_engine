@@ -7,18 +7,22 @@
 
 #ifdef _DARWIN
     #include <GLUT/glut.h>
+    #include <GLUT/glu.h>
 #endif
 #ifdef _WINDOWS
     #include <GL/glut.h>
+    #include <GL/glu.h>
 #endif
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_opengl.h>
 #include <cmath>
 #include <thread>
 #include <chrono>
 #include <map>
 #include <vector>
+#include <string>
 #include "Object.h"
 #include "Game.h"
 

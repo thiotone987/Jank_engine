@@ -5,13 +5,7 @@
 #ifndef JANK_ENGINE_GAME_H
 #define JANK_ENGINE_GAME_H
 
-#ifdef _DARWIN
-    #include <GLUT/glut.h>
-#endif
-#ifdef _WINDOWS
-    #include <GL/glut.h>
-#endif
-
+#include "glut.h"
 #include <cmath>
 #include <functional>
 #include <vector>

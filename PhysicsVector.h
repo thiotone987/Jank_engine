@@ -6,13 +6,7 @@
 #define JANK_ENGINE_PHYSICSVECTOR_H
 
 
-#ifdef _DARWIN
-    #include <OpenGL/gl.h>
-#endif
-#ifdef _WINDOWS
-    #include <GL/gl.h>
-#endif
-
+#include "glut.h"
 #include <iostream>
 #include <cmath>
 #include <memory>

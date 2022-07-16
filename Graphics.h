@@ -5,15 +5,8 @@
 #ifndef JANK_ENGINE_GRAPHICS_H
 #define JANK_ENGINE_GRAPHICS_H
 
-#ifdef _DARWIN
-    #include <GLUT/glut.h>
-    #include <GLUT/glu.h>
-#endif
-#ifdef _WINDOWS
-    #include <GL/glut.h>
-    #include <GL/glu.h>
-#endif
 
+#include "glut.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_opengl.h>

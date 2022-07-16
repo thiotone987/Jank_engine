@@ -13,68 +13,73 @@
 #include <unordered_set>
 #include <boost/functional/hash.hpp>
 #include "Unit.h"
+#include "PhysicsScalar.h"
 
 template<Unit U>
 class PhysicsVector {
 public:
     static constexpr Unit units = U;
-    GLdouble x;
-    GLdouble y;
+    PhysicsScalar<units> x;
+    PhysicsScalar<units> y;
 
-    PhysicsVector(GLdouble x, GLdouble y) : x(x), y(y) {
-    }
+    PhysicsVector(GLdouble x, GLdouble y) : x(x), y(y) { }
+    PhysicsVector(PhysicsScalar<units> x, PhysicsScalar<units> y) : x(x), y(y) { }
 
     static PhysicsVector construct_polar(GLdouble radius, GLdouble angle) {
         return PhysicsVector(radius * std::cos(angle), radius * std::sin(angle));
     }
 
     friend PhysicsVector operator+(const PhysicsVector& first, const PhysicsVector& second) {
-        return PhysicsVector<U>(first.x+second.x, first.y+second.y);
+        return PhysicsVector(first.x+second.x, first.y+second.y);
     }
 
-    template<Unit U2>
-    PhysicsVector<U*U2> times_unit() {
-        return PhysicsVector<U*U2>(x, y);
-    }
-
-    friend PhysicsVector operator*(const PhysicsVector& vec, const Unit& unit) {
-        return PhysicsVector<U*unit>(vec.x, vec.y);
-    }
-    friend PhysicsVector operator*(const Unit& unit, const PhysicsVector& vec) {
-        return vec*unit;
-    }
     friend PhysicsVector operator*(const PhysicsVector& vec, GLdouble n) {
-        return PhysicsVector<U>(vec.x*n, vec.y*n);
+        return PhysicsVector(vec.x*n, vec.y*n);
     }
     friend PhysicsVector operator*(GLdouble n, const PhysicsVector& vec) {
         return vec*n;
     }
+
     friend PhysicsVector operator/(const PhysicsVector& vec, GLdouble n) {
-        return PhysicsVector<U>(vec.x/n, vec.y/n);
+        return PhysicsVector(vec.x/n, vec.y/n);
     }
     friend PhysicsVector operator/(GLdouble n, const PhysicsVector& vec) {
         return vec/n;
     }
 
-    PhysicsVector& operator+=(const PhysicsVector<U>& other) {
+    PhysicsVector& operator+=(const PhysicsVector& other) {
         x += other.x;
         y += other.y;
         return *this;
     }
+    PhysicsVector& operator-=(const PhysicsVector& other) {
+        x -= other.x;
+        y -= other.y;
+        return *this;
+    }
 
-    friend bool operator==(const PhysicsVector<U>& first, const PhysicsVector<U>& second) {
+    friend bool operator==(const PhysicsVector& first, const PhysicsVector& second) {
         return first.x == second.x && first.y == second.y;
     }
 
-    friend std::ostream& operator<<(std::ostream& ost, const PhysicsVector<U>& vector) {
-        ost << "("
-            << vector.x << " " <<  PhysicsVector<U>::units
-            << ", "
-            << vector.y << " " <<  PhysicsVector<U>::units
-            << ")";
+    friend std::ostream& operator<<(std::ostream& ost, const PhysicsVector& vector) {
+        ost << "(" << vector.x << ", " << vector.y << ")";
         return ost;
     }
 };
+
+template<Unit firstUnits, Unit secondUnits>
+auto operator*(const PhysicsVector<firstUnits>& first, const PhysicsVector<secondUnits>& second) {
+    return PhysicsVector<firstUnits*secondUnits>(first.x*second.x, first.y*second.y);
+}
+template<Unit vecUnits, Unit scalarUnits>
+auto operator*(const PhysicsVector<vecUnits>& vec, PhysicsScalar<scalarUnits> scalar) {
+    return PhysicsVector<vecUnits*scalarUnits>(vec.x*scalar, vec.y*scalar);
+}
+template<Unit scalarUnits, Unit vecUnits>
+auto operator*(PhysicsScalar<scalarUnits> scalar, const PhysicsVector<vecUnits>& vec) {
+    return vec*scalar;
+}
 
 template<Unit U>
 std::size_t hash_value(PhysicsVector<U> const& vec) {

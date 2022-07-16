@@ -25,7 +25,7 @@ void start_graphics(int *argc_p, char *argv[]);
 void start_two_windows(int *argc_p, char *argv[]);
 int start_special_graphics(int *argc, char *argv[]);
 int two_SDL_windows(int *argc, char *argv[]);
-void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector& center_coords);
+void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector<METERS>& center_coords);
 void redisplay(int millis);
 void display_func();
 void display_func_1();

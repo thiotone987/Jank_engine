@@ -7,15 +7,15 @@
 std::unordered_set<Object*> objects;
 
 Object::Object()
-: Object(PhysicsVector(METERS, 0, 0), PhysicsVector(METERS / SECONDS, 0, 0)) {
+: Object(PhysicsVector<METERS>(0, 0), PhysicsVector<METERS/SECONDS>(0, 0)) {
 }
 
-Object::Object(PhysicsVector initial_position)
-: Object(std::move(initial_position), PhysicsVector(METERS / SECONDS, 0, 0)) {
+Object::Object(PhysicsVector<METERS> initial_position)
+: Object(initial_position, PhysicsVector<METERS/SECONDS>(0, 0)) {
 }
 
-Object::Object(PhysicsVector initial_position, PhysicsVector initial_velocity)
-: position(std::move(initial_position)), velocity(std::move(initial_velocity)) {
+Object::Object(PhysicsVector<METERS> initial_position, PhysicsVector<METERS/SECONDS> initial_velocity)
+: position(initial_position), velocity(initial_velocity) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Object& vector) {

@@ -14,14 +14,14 @@
 class Object {
 public:
     // Add types to the comma-separated list to get SchizoMap support for attributes of that type
-    typedef boost::variant<int, std::string, PhysicsVector> attr_variant_t;
+    typedef boost::variant<int, std::string, PhysicsVector<METERS>, PhysicsVector<METERS/SECONDS>> attr_variant_t;
 
-    PhysicsVector position;
-    PhysicsVector velocity;
+    PhysicsVector<METERS> position;
+    PhysicsVector<METERS/SECONDS> velocity;
 
     Object();
-    explicit Object(PhysicsVector initial_position);
-    Object(PhysicsVector initial_position, PhysicsVector initial_velocity);
+    explicit Object(PhysicsVector<METERS> initial_position);
+    Object(PhysicsVector<METERS> initial_position, PhysicsVector<METERS/SECONDS> initial_velocity);
 
     [[nodiscard]] std::unordered_map<std::string, attr_variant_t> get_attr_map() const {
         std::unordered_map<std::string, attr_variant_t> output;

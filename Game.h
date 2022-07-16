@@ -13,7 +13,7 @@
 
 #include "Object.h"
 
-void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector& center_coords);
+void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector<METERS>& center_coords);
 
 class Game {
 private:

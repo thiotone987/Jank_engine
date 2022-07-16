@@ -11,23 +11,25 @@ int main(int argc, char* argv []) {
     Object obj(some_position);
     PhysicsVector some_velocity = PhysicsVector<METERS/SECONDS>(0.03, 0.02);
     Object obj2(some_position, some_velocity);
-    std::vector<Object*> hi;
+    SchizoMap hi;
     for (double i = -0.5; i < 0.5; i += 0.01) {
         PhysicsVector pos = PhysicsVector<METERS>(i, i);
         PhysicsVector v = PhysicsVector<METERS/SECONDS>( i, i);
-        hi.push_back(new Object(pos, v));
+        hi.add(new Object(pos, v));
     }
     Game game1(hi);
 
-    std::vector<Object*> hola = {&obj, &obj2};
+    SchizoMap hola;
+    hola.add(&obj);
+    hola.add(&obj2);
     Game game2(hola);
 
 
 
     start_special_graphics(&argc, argv);
     //two_SDL_windows(&argc, argv);
-    //glutInit(&argc, argv);
-    //start_graphics(&argc, argv);
+//    glutInit(&argc, argv);
+//    start_graphics(&argc, argv);
 
     return 0;
 }

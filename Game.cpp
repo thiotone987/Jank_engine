@@ -20,7 +20,7 @@ void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVe
     glEnd();
 }
 
-Game::Game(std::vector<Object*>& objects) noexcept : objects(objects) {
+Game::Game(SchizoMap& objects) noexcept : objects(objects) {
     games.push_back(this);
     moving = false;
 }

@@ -11,18 +11,19 @@
 #include <vector>
 #include <ranges>
 
+#include "SchizoMap.h"
 #include "Object.h"
 
 void load_regular_polygon(GLdouble num_sides, GLdouble side_len, const PhysicsVector<METERS>& center_coords);
 
 class Game {
 private:
-    std::vector<Object*> objects;
+    SchizoMap objects;
     bool moving;
 public:
     GLint windowID;
 
-    explicit Game(std::vector<Object*>& objects) noexcept;
+    explicit Game(SchizoMap& objects) noexcept;
     void my_display_func();
     void load();
     void run();

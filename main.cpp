@@ -19,9 +19,7 @@ int main(int argc, char* argv []) {
     }
     Game game1(hi);
 
-    SchizoMap hola;
-    hola.add(&obj);
-    hola.add(&obj2);
+    SchizoMap hola = {&obj, &obj2};
     Game game2(hola);
 
 

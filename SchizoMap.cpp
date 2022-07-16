@@ -12,6 +12,12 @@ concept range = requires( T& t ) {
     std::ranges::end(t);
 };
 
+SchizoMap::SchizoMap(std::initializer_list<Object*> il) {
+    for (Object *obj : il) {
+        add(obj);
+    }
+}
+
 void SchizoMap::add(Object *obj) {
     const auto& obj_attr_map = obj->get_attr_map();
 

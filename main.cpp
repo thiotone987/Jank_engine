@@ -19,10 +19,10 @@ int main(int argc, char* argv []) {
     for (const auto& obj_p : filter_result) {
         std::cout << *obj_p << std::endl;
     }
-    glutInit(&argc, argv);
+    //glutInit(&argc, argv);
 
-    start_motion();
-    start_graphics(&argc, argv);
+    //start_motion();
+    start_special_graphics(&argc, argv);
 
     return 0;
 }

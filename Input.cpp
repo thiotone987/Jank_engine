@@ -1,5 +1,5 @@
 //
-// Created by Jacob Friedman on 6/5/22.
+// Created by Cary Chun & Jacob Friedman on 6/5/22.
 //
 
 #include "Input.h"

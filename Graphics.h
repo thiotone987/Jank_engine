@@ -30,6 +30,7 @@ void display_func_2();
 void load_objects();
 void load_sprite(std::string file_path);
 void call_renderer(GLuint &txID, GLfloat w, GLfloat h, SDL_Window *pog);
+void write_letters(const std::string input_txt);
 //the only difference between the two is the
 //status in render queue
 void load_background(std::string file_path);

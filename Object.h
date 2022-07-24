@@ -18,6 +18,7 @@ public:
 private:
     PhysicsVector position;
     PhysicsVector velocity;
+    std::string sprite_loc;
 public:
     Object();
     explicit Object(PhysicsVector initial_position);

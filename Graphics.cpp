@@ -13,13 +13,14 @@ void start_graphics(int* argc_p, char* argv[]){
         game->run();
     }
 
-    glutMainLoop();
+    //glutMainLoop();
 }
 
 int start_special_graphics(int *argc, char *argv[]){
     //const char* title = "help";
     bool state_flag = true;
-    SDL_Window *sdlWindow;
+    SDL_Window *sdlWindow = NULL;
+    SDL_Renderer *renderer;
     SDL_GLContext maincontext;
     SDL_DisplayMode currentMode;
     SDL_Event event;
@@ -34,24 +35,35 @@ int start_special_graphics(int *argc, char *argv[]){
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 /* Turn on double buffering with a 24bit Z buffer.
  * You may need to change this to 16 or 32 for your system */
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+    //SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    //SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
 
-    sdlWindow = SDL_CreateWindow("YIKES", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                 1600, 800, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    sdlWindow = SDL_CreateWindow("potato pototo", SDL_WINDOWPOS_UNDEFINED,
+                                 SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
+    renderer = SDL_CreateRenderer(sdlWindow, -1, 0);
 
-    maincontext = SDL_GL_CreateContext(sdlWindow);
+    SDL_Surface *sur = IMG_Load("weeb.png");
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, sur);
+
+    if(sur == NULL){
+        printf("Yikes chief, no estambien");
+        return 1;
+    }
+
+
+    //maincontext = SDL_GL_CreateContext(sdlWindow);
 
     //fights screen tear by syncing to vert refresh rate
     //SDL_GLContext help = SDL_GL_CreateContext(sdlWindow);
-    SDL_GL_SetSwapInterval(1);
+    //SDL_GL_SetSwapInterval(1);
 
     //glClearColor(1.0, 0.0, 0.0, 1.0);
     //glClear(GL_COLOR_BUFFER_BIT);
@@ -59,61 +71,54 @@ int start_special_graphics(int *argc, char *argv[]){
     //SDL_GL_SwapWindow(sdlWindow);
 
     //idk if this needs to be here
-    glutInit(argc, argv);
+    //glutInit(argc, argv);
 
-    glClear(GL_COLOR_BUFFER_BIT);
-    glViewport(0.f, 0.f, 640, 480);
+    //glClear(GL_COLOR_BUFFER_BIT);
+    //glViewport(0.f, 0.f, 640, 480);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
 
-    glOrtho(0.0, 640, 480, 0.0, 1.0, -1.0);
+    //glOrtho(0.0, 640, 480, 0.0, 1.0, -1.0);
 
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
 
-    glLoadIdentity();
+    //glLoadIdentity();
 
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+    //glClearColor(0.f, 0.f, 0.f, 1.f);
 
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
+    //glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_BLEND);
 
-    SDL_Surface *sur = IMG_Load("weeb.png");
-
-    if(sur == NULL){
-        printf("Yikes chief, no estambien");
-        return 1;
-    }
-
-    GLuint txID = 0;
-    glGenTextures(1, &txID);
-    glBindTexture(GL_TEXTURE_2D, txID);
+    //GLuint txID = 0;
+    //glGenTextures(1, &txID);
+    //glBindTexture(GL_TEXTURE_2D, txID);
 
     //something down here has to be off
-    int mode = GL_RGB;
-    if(sur->format->BytesPerPixel == 4)
-        mode = GL_RGBA;
+    //int mode = GL_RGB;
+    //if(sur->format->BytesPerPixel == 4)
+        //mode = GL_RGBA;
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     //GLenum error1 = glGetError();
 
-    glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
+    //glTexImage2D(GL_TEXTURE_2D, 0, mode, sur->w, sur->h, 0, mode, GL_UNSIGNED_BYTE, sur->pixels);
 
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    call_renderer(txID, sur->w, sur->h, sdlWindow);
+    //call_renderer(txID, sur->w, sur->h, sdlWindow);
 
-    GLenum error = glGetError();
+    //GLenum error = glGetError();
 
     SDL_Delay(200);
 
-    if( error != GL_NO_ERROR )
-    {
-        printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
-    }
+    //if( error != GL_NO_ERROR )
+    //{
+        //printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
+    //}
 
     //load_sprite(test_image_1, gScreenSurface);
 
@@ -132,9 +137,16 @@ int start_special_graphics(int *argc, char *argv[]){
                     state_flag = false;
                 }
             }
+            SDL_RenderCopy(renderer, texture, NULL, NULL);
+            SDL_RenderPresent(renderer);
         }
         //glBindTexture(GL_TEXTURE_2D, NULL);
     }
+
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(sur);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(sdlWindow);
 
     int dispIndex = 0;
     int bpp = 0;
@@ -162,7 +174,7 @@ int start_special_graphics(int *argc, char *argv[]){
     //SDL_RenderClear(sdlRenderer);
     //SDL_RenderPresent(sdlRenderer);
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     //SDL_RenderSetLogicalSize(sdlRenderer, defWidth, defHeight);
 
     //The code below draws a texture to test the efficacy of the renderer
@@ -267,4 +279,8 @@ SDL_Surface* load_sprite(const std::string& file_path, SDL_Surface *gScreen){
 
 void load_background(const std::string& file_path){
 
+}
+
+void write_letters(const std::string *input_txt){
+    
 }

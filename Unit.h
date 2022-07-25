@@ -1,7 +1,3 @@
-//
-// Created by Jacob Friedman on 5/31/22.
-//
-
 #ifndef JANK_ENGINE_UNIT_H
 #define JANK_ENGINE_UNIT_H
 

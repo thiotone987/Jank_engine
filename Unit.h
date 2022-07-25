@@ -11,41 +11,35 @@
 #include <boost/functional/hash.hpp>
 
 class Unit {
-private:
-    int meters_exp;
-    int seconds_exp;
-    int kg_exp;
 public:
-    constexpr Unit(int meters_exp, int seconds_exp, int kg_exp) noexcept {
-        this->meters_exp = meters_exp;
-        this->seconds_exp = seconds_exp;
-        this->kg_exp = kg_exp;
-    };
-    [[nodiscard]] constexpr int get_meters_exp() const { return meters_exp; };
-    [[nodiscard]] constexpr int get_seconds_exp() const { return seconds_exp; };
-    [[nodiscard]] constexpr int get_kg_exp() const { return kg_exp; };
-
-    constexpr friend Unit operator*(Unit unit1, Unit unit2) {
-        return Unit(unit1.get_meters_exp() + unit2.get_meters_exp(),
-                    unit1.get_seconds_exp() + unit2.get_seconds_exp(),
-                    unit1.get_kg_exp() + unit2.get_kg_exp());
-    };
-    constexpr friend Unit operator/(Unit unit1, Unit unit2) {
-        return Unit(unit1.get_meters_exp() - unit2.get_meters_exp(),
-                    unit1.get_seconds_exp() - unit2.get_seconds_exp(),
-                    unit1.get_kg_exp() - unit2.get_kg_exp());
-    };
-    constexpr friend Unit operator^(Unit unit, int exp) {
-        return Unit(unit.get_meters_exp()*exp,
-                    unit.get_seconds_exp()*exp,
-                    unit.get_kg_exp()*exp);
+    const int meters_exp;
+    const int seconds_exp;
+    const int kg_exp;
+    constexpr Unit(int meters_exp, int seconds_exp, int kg_exp) noexcept
+        : meters_exp(meters_exp), seconds_exp(seconds_exp), kg_exp(kg_exp)  {
     }
 
+    constexpr friend Unit operator*(const Unit unit1, const Unit unit2) {
+        return Unit(unit1.meters_exp + unit2.meters_exp,
+                    unit1.seconds_exp + unit2.seconds_exp,
+                    unit1.kg_exp + unit2.kg_exp);
+    }
+    constexpr friend Unit operator/(const Unit unit1, const Unit unit2) {
+        return Unit(unit1.meters_exp - unit2.meters_exp,
+                    unit1.seconds_exp - unit2.seconds_exp,
+                    unit1.kg_exp - unit2.kg_exp);
+    }
+    constexpr friend Unit operator^(const Unit unit, const int exp) {
+        return Unit(unit.meters_exp*exp,
+                    unit.seconds_exp*exp,
+                    unit.kg_exp*exp);
+    }
     constexpr friend bool operator==(Unit unit1, Unit unit2) {
         return unit1.meters_exp == unit2.meters_exp &&
                unit1.kg_exp == unit2.kg_exp &&
                unit1.seconds_exp == unit2.seconds_exp;
-    };
+    }
+
     friend std::ostream& operator<<(std::ostream& ost, const Unit& unit);
 };
 

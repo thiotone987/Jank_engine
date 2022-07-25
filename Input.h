@@ -1,7 +1,3 @@
-//
-// Created by Jacob Friedman on 6/5/22.
-//
-
 #ifndef JANK_ENGINE_INPUT_H
 #define JANK_ENGINE_INPUT_H
 

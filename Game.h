@@ -1,22 +1,33 @@
-//
-// Created by Jacob Friedman on 6/6/22.
-//
-
 #ifndef JANK_ENGINE_GAME_H
 #define JANK_ENGINE_GAME_H
 
+#include "glut.h"
+#include <cmath>
+#include <functional>
 #include <vector>
+#include <ranges>
+
+#include "SchizoMap.h"
 #include "Object.h"
+
+void load_regular_polygon(GLdouble num_sides, GLdouble side_len, PhysicsVector<METERS> center_coords);
 
 class Game {
 private:
-    std::vector<Object> objects;
+    SchizoMap objects;
+    bool moving;
 public:
+    GLint windowID;
+
+    explicit Game(SchizoMap& objects) noexcept;
+    void my_display_func();
     void load();
     void run();
     void stop_run();
     void unload();
+    void start_motion();
+    void per_second_movement(int help);
+    void end_motion();
 };
-
 
 #endif //JANK_ENGINE_GAME_H

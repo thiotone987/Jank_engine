@@ -13,7 +13,7 @@ project(Jank_engine)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
-set(SOURCE_FILES  main.cpp Object.cpp Object.h PhysicsVector.cpp Unit.cpp Unit.h PhysicsVector.h TheFirstMover.cpp TheFirstMover.h Graphics.cpp Graphics.h Input.cpp Input.h Game.cpp Game.h SchizoMap.cpp SchizoMap.h)
+set(SOURCE_FILES  main.cpp Object.cpp Object.h PhysicsVector.cpp Unit.cpp Unit.h PhysicsVector.h Graphics.cpp Graphics.h Input.cpp Input.h Game.cpp Game.h SchizoMap.cpp SchizoMap.h glut.h PhysicsScalar.cpp PhysicsScalar.h)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )
@@ -57,10 +57,10 @@ Message("")
 Message( STATUS "FINDING SDL2TTF" )
 Message( STATUS "SDL2TTF_FOUND: " ${SDL2TTF_FOUND} )
 IF (${SDL2TTF_FOUND})
-    #Message( STATUS "SDL2TTF_INCLUDE_DIR: " ${SDL2TTF_INCLUDE_DIR})
-    #Message( STATUS "SDL2TTF_LIBRARY: " ${SDL2TTF_LIBRARY})
+    Message( STATUS "SDL2TTF_INCLUDE_DIR: " ${SDL2TTF_INCLUDE_DIR})
+    Message( STATUS "SDL2TTF_LIBRARY: " ${SDL2TTF_LIBRARY})
 ELSE()
-    #Message( FATAL_ERROR "SDL2TTF NOT FOUND" )
+    Message( FATAL_ERROR "SDL2TTF NOT FOUND" )
 ENDIF()
 Message("")
 
@@ -80,15 +80,22 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SD
 
 # ------- End ----------- #
 
-
-#cmake_minimum_required(VERSION 3.14)
-#project(Graphos)
-
-#set(CMAKE_CXX_STANDARD 17)
-
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(Boost REQUIRED)
 
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-target_link_libraries(Jank_engine ${GLUT_LIBRARIES} ${CMAKE_CURRENT_BINARY_DIR}/freeglut.dll  ${OPENGL_LIBRARIES})
+
+target_link_libraries(Jank_engine ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES})
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(Jank_engine ${CMAKE_CURRENT_BINARY_DIR}/freeglut.dll)
+endif()
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_compile_definitions(_WINDOWS)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    add_compile_definitions(_DARWIN)
+endif()
+
+add_compile_definitions(GL_SILENCE_DEPRECATION)
+add_compile_options(-Wall -Wextra -Wpedantic)

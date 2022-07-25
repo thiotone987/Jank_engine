@@ -1,7 +1,3 @@
-//
-// Created by Cary Chun & Jacob Friedman on 6/5/22.
-//
-
 #include "Input.h"
 
 char Input::getKey() {

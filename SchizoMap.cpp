@@ -1,12 +1,23 @@
-//
-// Created by Jacob Friedman on 6/6/22.
-//
-
 #include "SchizoMap.h"
+
+// Identical to std::ranges::range
+// Remove when Apple Clang adds std::ranges::range to the standard library
+template<class T>
+concept range = requires( T& t ) {
+    std::ranges::begin(t);
+    std::ranges::end(t);
+};
+
+SchizoMap::SchizoMap(std::initializer_list<Object*> il) {
+    for (Object *obj : il) {
+        add(obj);
+    }
+}
 
 void SchizoMap::add(Object *obj) {
     const auto& obj_attr_map = obj->get_attr_map();
 
+    this->objects.insert(obj);
     std::unordered_set<std::string> attr_names;
     for (auto const& attr : obj_attr_map) {
         attr_names.insert(attr.first);
@@ -26,6 +37,7 @@ void SchizoMap::add(Object *obj) {
 
 void SchizoMap::remove(Object *obj) {
     // removes obj from attr_metamap
+    this->objects.erase(obj);
     auto obj_attr_map = obj->get_attr_map();
     const auto& obj_attr_names = objs_to_attr_names[obj];
     for (const auto& attr_name : obj_attr_names) {
@@ -40,11 +52,11 @@ void SchizoMap::remove(Object *obj) {
     objs_to_attr_names.erase(obj);
 }
 
-std::unordered_set<Object*> SchizoMap::filter(const std::string& attr_name, const Object::attr_val_t& attr_val) {
+std::unordered_set<Object*> SchizoMap::filter(const std::string& attr_name, const Object::attr_variant_t& attr_val) {
     return attr_metamap[attr_name][attr_val];
 }
 
-std::ostream& print_with_separator(std::ostream& ost, const Iterable auto& container, const std::string& separator) {
+std::ostream& print_with_separator(std::ostream& ost, const range auto& container, const std::string& separator) {
     for (auto attr_name = container.begin(); attr_name != container.end(); attr_name++) {
         ost << *attr_name;
         if (std::next(attr_name) != container.end()) ost << separator;

@@ -1,7 +1,3 @@
-//
-// Created by Jacob Friedman & Cary Chun on 5/26/22.
-//
-
 #include "Graphics.h"
 #include "Game.h"
 
@@ -254,9 +250,6 @@ void display_func() {
     glutPostRedisplay();
 }
 
-
-
-
 SDL_Surface* load_sprite(const std::string& file_path, SDL_Surface *gScreen){
     //NEVERMIND THIS IS IMPORTANT WTF?
     //I am not gonna risk global variables for gScreenSurface
@@ -281,6 +274,6 @@ void load_background(const std::string& file_path){
 
 }
 
-void write_letters(const std::string *input_txt){
+void write_letters(const std::string& input_txt){
     
 }

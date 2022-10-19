@@ -4,19 +4,18 @@
 #include "glut.h"
 #include "Unit.h"
 
-template<Unit U>
+template<Unit units>
 class PhysicsScalar {
 public:
-    static constexpr Unit units = U;
     GLdouble val;
 
     constexpr explicit PhysicsScalar(GLdouble val) : val(val) {}
 
-    PhysicsScalar& operator+=(PhysicsScalar other) {
+    constexpr PhysicsScalar& operator+=(PhysicsScalar other) {
         val += other.val;
         return *this;
     }
-    PhysicsScalar& operator-=(PhysicsScalar other) {
+    constexpr PhysicsScalar& operator-=(PhysicsScalar other) {
         val -= other.val;
         return *this;
     }
@@ -26,17 +25,20 @@ public:
     constexpr friend PhysicsScalar operator-(PhysicsScalar first, PhysicsScalar second) {
         return PhysicsScalar(first.val - second.val);
     }
+    constexpr PhysicsScalar operator-() {
+        return PhysicsScalar(-val);
+    }
     constexpr friend PhysicsScalar operator*(PhysicsScalar scalar, GLdouble n) {
         return PhysicsScalar(scalar.val * n);
     }
     constexpr friend PhysicsScalar operator*(GLdouble n, PhysicsScalar scalar) {
-        return scalar*n;
+        return PhysicsScalar(n * scalar.val);
     }
     constexpr friend PhysicsScalar operator/(PhysicsScalar scalar, GLdouble n) {
         return PhysicsScalar(scalar.val / n);
     }
-    constexpr friend PhysicsScalar operator/(GLdouble n, PhysicsScalar scalar) {
-        return scalar/n;
+    constexpr friend auto operator/(GLdouble n, PhysicsScalar scalar) {
+        return PhysicsScalar<units.inverse()>(n / scalar.val);
     }
 
     constexpr friend auto operator<=>(PhysicsScalar first, PhysicsScalar second) {
@@ -47,17 +49,17 @@ public:
     }
 
     friend std::ostream& operator<<(std::ostream& ost, const PhysicsScalar& scalar) {
-        ost << scalar.val << units;
+        ost << scalar.val << ' ' << units;
         return ost;
     }
 };
 
 template<Unit firstUnits, Unit secondUnits>
-PhysicsScalar<firstUnits*secondUnits> operator*(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
+constexpr auto operator*(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
     return PhysicsScalar<firstUnits*secondUnits>(first.val*second.val);
 }
 template<Unit firstUnits, Unit secondUnits>
-PhysicsScalar<firstUnits/secondUnits> operator/(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
+constexpr auto operator/(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
     return PhysicsScalar<firstUnits/secondUnits>(first.val/second.val);
 }
 

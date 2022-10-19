@@ -32,8 +32,12 @@ public:
     }
     constexpr friend bool operator==(Unit unit1, Unit unit2) {
         return unit1.meters_exp == unit2.meters_exp &&
-               unit1.kg_exp == unit2.kg_exp &&
-               unit1.seconds_exp == unit2.seconds_exp;
+               unit1.seconds_exp == unit2.seconds_exp &&
+               unit1.kg_exp == unit2.kg_exp;
+    }
+
+    constexpr Unit inverse() const {
+        return Unit(-meters_exp, -seconds_exp, -kg_exp);
     }
 
     friend std::ostream& operator<<(std::ostream& ost, const Unit& unit);

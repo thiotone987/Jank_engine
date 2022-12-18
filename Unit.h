@@ -16,19 +16,19 @@ public:
     }
 
     constexpr friend Unit operator*(const Unit unit1, const Unit unit2) {
-        return Unit(unit1.meters_exp + unit2.meters_exp,
+        return Unit{unit1.meters_exp + unit2.meters_exp,
                     unit1.seconds_exp + unit2.seconds_exp,
-                    unit1.kg_exp + unit2.kg_exp);
+                    unit1.kg_exp + unit2.kg_exp};
     }
     constexpr friend Unit operator/(const Unit unit1, const Unit unit2) {
-        return Unit(unit1.meters_exp - unit2.meters_exp,
+        return Unit{unit1.meters_exp - unit2.meters_exp,
                     unit1.seconds_exp - unit2.seconds_exp,
-                    unit1.kg_exp - unit2.kg_exp);
+                    unit1.kg_exp - unit2.kg_exp};
     }
     constexpr friend Unit operator^(const Unit unit, const int exp) {
-        return Unit(unit.meters_exp*exp,
+        return Unit{unit.meters_exp*exp,
                     unit.seconds_exp*exp,
-                    unit.kg_exp*exp);
+                    unit.kg_exp*exp};
     }
     constexpr friend bool operator==(Unit unit1, Unit unit2) {
         return unit1.meters_exp == unit2.meters_exp &&
@@ -36,14 +36,14 @@ public:
                unit1.kg_exp == unit2.kg_exp;
     }
 
-    constexpr Unit inverse() const {
-        return Unit(-meters_exp, -seconds_exp, -kg_exp);
+    [[nodiscard]] constexpr Unit inverse() const {
+        return Unit{-meters_exp, -seconds_exp, -kg_exp};
     }
 
     friend std::ostream& operator<<(std::ostream& ost, const Unit& unit);
 };
 
-std::size_t hash_value(Unit const& unit);
+[[maybe_unused]] std::size_t hash_value(Unit const& unit);
 
 constexpr Unit METERS(1, 0, 0);
 constexpr Unit SECONDS(0, 1, 0);

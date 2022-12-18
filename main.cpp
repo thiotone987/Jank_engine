@@ -17,6 +17,7 @@ int main(int argc, char* argv []) {
         PhysicsVector v = PhysicsVector<METERS/SECONDS>( i, i);
         hi.add(new Object(pos, v));
     }
+    std::cout << hi << std::endl;
     //glutInit(&argc, argv);
     //start_motion();
     start_special_graphics(&argc, argv);

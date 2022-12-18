@@ -70,20 +70,33 @@ public:
 };
 
 template<Unit firstUnits, Unit secondUnits>
-constexpr auto operator*(PhysicsVector<firstUnits> first, PhysicsVector<secondUnits> second) {
-    return PhysicsVector<firstUnits*secondUnits>(first.x*second.x, first.y*second.y);
+constexpr PhysicsVector<firstUnits*secondUnits> operator*(PhysicsVector<firstUnits> first, PhysicsVector<secondUnits> second) {
+    return {first.x*second.x, first.y*second.y};
 }
 template<Unit vecUnits, Unit scalarUnits>
-constexpr auto operator*(PhysicsVector<vecUnits> vec, PhysicsScalar<scalarUnits> scalar) {
-    return PhysicsVector<vecUnits*scalarUnits>(vec.x*scalar, vec.y*scalar);
+constexpr PhysicsVector<vecUnits*scalarUnits> operator*(PhysicsVector<vecUnits> vec, PhysicsScalar<scalarUnits> scalar) {
+    return {vec.x*scalar, vec.y*scalar};
 }
 template<Unit scalarUnits, Unit vecUnits>
-constexpr auto operator*(PhysicsScalar<scalarUnits> scalar, PhysicsVector<vecUnits> vec) {
+constexpr PhysicsVector<vecUnits*scalarUnits> operator*(PhysicsScalar<scalarUnits> scalar, PhysicsVector<vecUnits> vec) {
     return vec*scalar;
 }
 
+template<Unit firstUnits, Unit secondUnits>
+constexpr PhysicsVector<firstUnits/secondUnits> operator/(PhysicsVector<firstUnits> first, PhysicsVector<secondUnits> second) {
+    return {first.x/second.x, first.y/second.y};
+}
+template<Unit vecUnits, Unit scalarUnits>
+constexpr PhysicsVector<vecUnits/scalarUnits> operator/(PhysicsVector<vecUnits> vec, PhysicsScalar<scalarUnits> scalar) {
+    return {vec.x/scalar, vec.y/scalar};
+}
+template<Unit scalarUnits, Unit vecUnits>
+constexpr PhysicsVector<scalarUnits/vecUnits> operator/(PhysicsScalar<scalarUnits> scalar, PhysicsVector<vecUnits> vec) {
+    return {scalar/vec.x, scalar/vec.y};
+}
+
 template<Unit units>
-std::size_t hash_value(PhysicsVector<units> vec) {
+[[maybe_unused]] std::size_t hash_value(PhysicsVector<units> vec) {
     std::size_t seed = 0;
     boost::hash_combine(seed, vec.x);
     boost::hash_combine(seed, vec.y);

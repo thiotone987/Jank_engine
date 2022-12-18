@@ -31,15 +31,15 @@ public:
     SchizoMap(std::initializer_list<Object*>);
     void add(Object *obj);
     void remove(Object *obj);
-    auto begin() {
-        return this->objects.begin();
+    [[nodiscard]] auto begin() const {
+        return objects.begin();
     }
 
-    auto end(){
-        return this->objects.end();
+    [[nodiscard]] auto end() const{
+        return objects.end();
     }
 
-    std::unordered_set<Object*> filter(const std::string& attr_name, const Object::attr_variant_t& attr_val);
+    [[nodiscard]] std::unordered_set<Object*> filter(const std::string& attr_name, const Object::attr_variant_t& attr_val);
 
     friend std::ostream& operator<<(std::ostream& ost, const SchizoMap& schizo_map);
 };

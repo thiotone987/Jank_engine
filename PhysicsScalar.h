@@ -55,16 +55,16 @@ public:
 };
 
 template<Unit firstUnits, Unit secondUnits>
-constexpr auto operator*(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
-    return PhysicsScalar<firstUnits*secondUnits>(first.val*second.val);
+constexpr PhysicsScalar<firstUnits*secondUnits> operator*(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
+    return PhysicsScalar<firstUnits*secondUnits>{first.val*second.val};
 }
 template<Unit firstUnits, Unit secondUnits>
-constexpr auto operator/(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
-    return PhysicsScalar<firstUnits/secondUnits>(first.val/second.val);
+constexpr PhysicsScalar<firstUnits/secondUnits> operator/(PhysicsScalar<firstUnits> first, PhysicsScalar<secondUnits> second) {
+    return PhysicsScalar<firstUnits*secondUnits>{first.val/second.val};
 }
 
 template<Unit U>
-std::size_t hash_value(const PhysicsScalar<U>& scalar) {
+[[maybe_unused]] std::size_t hash_value(PhysicsScalar<U> scalar) {
     return boost::hash_value(scalar.val);
 }
 

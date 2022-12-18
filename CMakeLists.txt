@@ -13,7 +13,7 @@ project(Jank_engine)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
-set(SOURCE_FILES  main.cpp Object.cpp Object.h PhysicsVector.cpp Unit.cpp Unit.h PhysicsVector.h Graphics.cpp Graphics.h Input.cpp Input.h Game.cpp Game.h SchizoMap.cpp SchizoMap.h glut.h PhysicsScalar.cpp PhysicsScalar.h)
+set(SOURCE_FILES  main.cpp Object.cpp Object.h Unit.cpp Unit.h PhysicsVector.h Graphics.cpp Graphics.h Input.cpp Input.h Game.cpp Game.h SchizoMap.cpp SchizoMap.h glut.h PhysicsScalar.h)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )

@@ -4,3 +4,5 @@
 cmake-build-debug/
 # MacOS Finder config file
 .DS_Store
+# idk some linter thing
+.cache

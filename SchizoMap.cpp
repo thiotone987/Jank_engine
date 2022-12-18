@@ -1,4 +1,5 @@
 #include "SchizoMap.h"
+#include "Object.h"
 
 // Identical to std::ranges::range
 // Remove when Apple Clang adds std::ranges::range to the standard library
@@ -15,40 +16,18 @@ SchizoMap::SchizoMap(std::initializer_list<Object*> il) {
 }
 
 void SchizoMap::add(Object *obj) {
-    const auto& obj_attr_map = obj->get_attr_map();
-
-    this->objects.insert(obj);
-    std::unordered_set<std::string> attr_names;
-    for (auto const& attr : obj_attr_map) {
-        attr_names.insert(attr.first);
-    }
-    objs_to_attr_names.insert(std::make_pair(obj, attr_names));
-
-    for (const auto& [attr_name, attr_val] : obj_attr_map) {
-        // This works even if there are no objects with that attribute and/or value yet,
-        // because map's [] operator will create a (default-constructed) element if it doesn't exist.
-        // Specifically:
-        //  The [attr_name] access will create an empty map
-        //  (mapping attribute values to the set of objects with that attribute value) if it doesn't exist yet.
-        //  The [attr_val] access will create an empty unordered_set of object pointers if it doesn't exist yet.
+    objects.insert(obj);
+    for (const auto& [attr_name, attr_val] : obj->get_attr_map()) {
         attr_metamap[attr_name][attr_val].insert(obj);
+        objs_to_attr_names[obj].insert(attr_name);
     }
 }
 
 void SchizoMap::remove(Object *obj) {
-    // removes obj from attr_metamap
-    this->objects.erase(obj);
-    auto obj_attr_map = obj->get_attr_map();
-    const auto& obj_attr_names = objs_to_attr_names[obj];
-    for (const auto& attr_name : obj_attr_names) {
-        const auto& attr_val = obj_attr_map[attr_name];
-        std::unordered_set<Object*>& objs_with_attr = attr_metamap[attr_name][attr_val];
-        objs_with_attr.erase(obj);
-        if (objs_with_attr.empty()) {
-            attr_metamap[attr_name].erase(attr_val);
-        }
+    objects.erase(obj);
+    for (const auto& attr_name : objs_to_attr_names[obj]) {
+        attr_metamap[attr_name][obj->get_attr_map()[attr_name]].erase(obj);
     }
-
     objs_to_attr_names.erase(obj);
 }
 
@@ -65,22 +44,22 @@ std::ostream& print_with_separator(std::ostream& ost, const range auto& containe
 }
 
 std::ostream& operator<<(std::ostream& ost, const SchizoMap& schizo_map) {
-    ost << "Objects: " << std::endl;
+    ost << "Objects: \n";
     for (const auto& [obj, attr_names] : schizo_map.objs_to_attr_names) {
         ost << "\tObject at address " << obj << " has attributes: ";
         print_with_separator(std::cout, attr_names, ", ");
-        ost << std::endl;
+        ost << "\n";
     }
-    ost << "Attributes: " << std::endl;
+    ost << "Attributes: \n";
     for (const auto& [attr_name, attr_vals_to_obj_sets] : schizo_map.attr_metamap) {
         ost << "\tValues for \"" << attr_name << "\" attribute: " << std::endl;
         for (const auto& [attr_val, objs_with_that_attr_val] : attr_vals_to_obj_sets) {
             ost << "\t\tThe following objects have this attribute with the value " << attr_val << ": " << std::endl;
             ost << "\t\t\t";
             print_with_separator(std::cout, objs_with_that_attr_val, ", ");
-            ost << std::endl;
+            ost << "\n";
         }
     }
-    ost << std::endl;
+    ost << "\n";
     return ost;
 }

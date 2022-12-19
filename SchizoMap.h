@@ -13,6 +13,7 @@
 
 #include "Object.h"
 #include "PhysicsVector.h"
+#include "SchizoIterator.h"
 
 class SchizoMap {
 private:
@@ -25,18 +26,17 @@ private:
         >
     > attr_metamap;
     std::unordered_map<Object*, std::unordered_set<std::string>> objs_to_attr_names;
-    std::unordered_set<Object*> objects;
 public:
     SchizoMap() = default;
     SchizoMap(std::initializer_list<Object*>);
     void add(Object *obj);
     void remove(Object *obj);
-    [[nodiscard]] auto begin() const {
-        return objects.begin();
+    [[nodiscard]] SchizoIterator begin() const {
+        return SchizoIterator(objs_to_attr_names.begin());
     }
 
-    [[nodiscard]] auto end() const{
-        return objects.end();
+    [[nodiscard]] SchizoIterator end() const{
+        return SchizoIterator(objs_to_attr_names.end());
     }
 
     [[nodiscard]] std::unordered_set<Object*> filter(const std::string& attr_name, const Object::attr_variant_t& attr_val);

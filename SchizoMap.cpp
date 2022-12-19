@@ -16,7 +16,6 @@ SchizoMap::SchizoMap(std::initializer_list<Object*> il) {
 }
 
 void SchizoMap::add(Object *obj) {
-    objects.insert(obj);
     for (const auto& [attr_name, attr_val] : obj->get_attr_map()) {
         attr_metamap[attr_name][attr_val].insert(obj);
         objs_to_attr_names[obj].insert(attr_name);
@@ -24,7 +23,6 @@ void SchizoMap::add(Object *obj) {
 }
 
 void SchizoMap::remove(Object *obj) {
-    objects.erase(obj);
     for (const auto& attr_name : objs_to_attr_names[obj]) {
         attr_metamap[attr_name][obj->get_attr_map()[attr_name]].erase(obj);
     }
